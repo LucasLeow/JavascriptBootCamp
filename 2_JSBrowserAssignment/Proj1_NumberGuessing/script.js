@@ -1,20 +1,32 @@
 'use strict';
 
-console.log('here', document.querySelector('.message'));
+const secret_num = Math.trunc(Math.random() * 20 + 1);
+let score = 20;
+let highscore = 0;
 
-document.querySelector('.message').textContent = 'Correct Number!';
-
-document.querySelector('.number').textContent = 13;
-document.querySelector('.score').textContent = 10;
-
-document.querySelector('.guess').value = 3;
+// == Init start values ==
+document.querySelector('.score').textContent = score;
+document.querySelector('.number').textContent = secret_num;
+document.querySelector('.highscore').textContent = highscore;
 
 document.querySelector('.check').addEventListener('click', () => {
   const guess = Number(document.querySelector('.guess').value);
 
   if (!guess) {
-    document.querySelector('.message').textContent = 'No Number!';
+    document.querySelector('.message').textContent = '⛔ No Number!';
+  } else if (guess === secret_num) {
+    document.querySelector('.message').textContent = '✅ Bingo!';
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector('.highscore').textContent = highscore;
+    }
   } else {
-    console.log(guess, typeof guess);
+    score -= 1;
+    document.querySelector('.score').textContent = score;
+    if (guess < secret_num) {
+      document.querySelector('.message').textContent = '⬆️ Higher.';
+    } else {
+      document.querySelector('.message').textContent = '⬇️ Lower.';
+    }
   }
 });
