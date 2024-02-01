@@ -1,20 +1,28 @@
 'use strict';
 
-const secret_num = Math.trunc(Math.random() * 20 + 1);
+let secret_num = Math.trunc(Math.random() * 20 + 1);
 let score = 20;
 let highscore = 0;
+let game_over_flag = false;
 
 // == Init start values ==
-document.querySelector('.score').textContent = score;
-document.querySelector('.number').textContent = secret_num;
-document.querySelector('.highscore').textContent = highscore;
 
-document.querySelector('.check').addEventListener('click', () => {
+document.querySelector('.highscore').textContent = highscore;
+document.querySelector('.score').textContent = score;
+
+const gameLogic = () => {
+  if (game_over_flag) {
+    alert('Game has ended. Please click Again! button to play again.');
+    return;
+  }
+
   const guess = Number(document.querySelector('.guess').value);
+  document.querySelector('.score').textContent = score;
 
   if (!guess) {
     document.querySelector('.message').textContent = '⛔ No Number!';
   } else if (guess === secret_num) {
+    game_over_flag = true;
     document.querySelector('.message').textContent = '✅ Bingo!';
     if (score > highscore) {
       highscore = score;
@@ -29,4 +37,16 @@ document.querySelector('.check').addEventListener('click', () => {
       document.querySelector('.message').textContent = '⬇️ Lower.';
     }
   }
-});
+};
+
+const againLogic = () => {
+  game_over_flag = false;
+  document.querySelector('.guess').value = null;
+  document.querySelector('.message').textContent = 'Start guessing...';
+  score = 20;
+  document.querySelector('.score').textContent = score;
+  secret_num = Math.trunc(Math.random() * 20 + 1);
+};
+
+document.querySelector('.check').addEventListener('click', gameLogic);
+document.querySelector('.btn.again').addEventListener('click', againLogic);
