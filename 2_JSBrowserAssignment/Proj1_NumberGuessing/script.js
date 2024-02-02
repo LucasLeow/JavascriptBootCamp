@@ -16,6 +16,10 @@ const gameLogic = () => {
     return;
   }
 
+  if (score === 0) {
+    document.querySelector('.message').textContent = 'Gameover 💥. You lose! ';
+    return;
+  }
   const guess = Number(document.querySelector('.guess').value);
   document.querySelector('.score').textContent = score;
 
