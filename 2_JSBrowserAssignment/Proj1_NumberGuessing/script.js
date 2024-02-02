@@ -1,11 +1,10 @@
 'use strict';
 
+// == Init start values ==
 let secret_num = Math.trunc(Math.random() * 20 + 1);
 let score = 20;
 let highscore = 0;
 let game_over_flag = false;
-
-// == Init start values ==
 
 document.querySelector('.highscore').textContent = highscore;
 document.querySelector('.score').textContent = score;
@@ -16,8 +15,11 @@ const gameLogic = () => {
     return;
   }
 
-  if (score === 0) {
+  if (score <= 1) {
+    score--;
+    document.querySelector('.score').textContent = score;
     document.querySelector('.message').textContent = 'Gameover 💥. You lose! ';
+    document.querySelector('body').style.backgroundColor = '#fb7a6c';
     return;
   }
   const guess = Number(document.querySelector('.guess').value);
@@ -28,6 +30,7 @@ const gameLogic = () => {
   } else if (guess === secret_num) {
     game_over_flag = true;
     document.querySelector('.message').textContent = '✅ Bingo!';
+    document.querySelector('body').style.backgroundColor = '#60b347';
     if (score > highscore) {
       highscore = score;
       document.querySelector('.highscore').textContent = highscore;
@@ -50,6 +53,7 @@ const againLogic = () => {
   score = 20;
   document.querySelector('.score').textContent = score;
   secret_num = Math.trunc(Math.random() * 20 + 1);
+  document.querySelector('body').style.backgroundColor = '#222';
 };
 
 document.querySelector('.check').addEventListener('click', gameLogic);
