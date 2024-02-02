@@ -38,12 +38,13 @@ const gameLogic = () => {
   } else {
     score -= 1;
     if (score == 0) {
+      scoreNode.textContent = score;
       messageNode.textContent = 'Gameover 💥. You lose! ';
       bodyNode.style.backgroundColor = '#fb7a6c';
       game_over_flag = true;
       return;
     }
-    document.querySelector('.score').textContent = score;
+    scoreNode.textContent = score;
     guess < secret_num
       ? (messageNode.textContent = '⬆️ Higher.')
       : (messageNode.textContent = '⬇️ Lower.');
