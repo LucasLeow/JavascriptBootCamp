@@ -6,8 +6,15 @@ let score = 20;
 let highscore = 0;
 let game_over_flag = false;
 
-document.querySelector('.highscore').textContent = highscore;
-document.querySelector('.score').textContent = score;
+// == Init nodes ==
+let highscoreNode = document.querySelector('.highscore');
+let scoreNode = document.querySelector('.score');
+let messageNode = document.querySelector('.message');
+let bodyNode = document.querySelector('body');
+let guessNode = document.querySelector('.guess');
+
+highscoreNode.textContent = highscore;
+scoreNode.textContent = score;
 
 const gameLogic = () => {
   if (game_over_flag) {
@@ -15,45 +22,44 @@ const gameLogic = () => {
     return;
   }
 
-  if (score <= 1) {
-    score--;
-    document.querySelector('.score').textContent = score;
-    document.querySelector('.message').textContent = 'Gameover 💥. You lose! ';
-    document.querySelector('body').style.backgroundColor = '#fb7a6c';
-    return;
-  }
-  const guess = Number(document.querySelector('.guess').value);
+  const guess = Number(guessNode.value);
   document.querySelector('.score').textContent = score;
 
   if (!guess) {
-    document.querySelector('.message').textContent = '⛔ No Number!';
+    messageNode.textContent = '⛔ No Number!';
   } else if (guess === secret_num) {
     game_over_flag = true;
-    document.querySelector('.message').textContent = '✅ Bingo!';
-    document.querySelector('body').style.backgroundColor = '#60b347';
+    messageNode.textContent = '✅ Bingo!';
+    bodyNode.style.backgroundColor = '#60b347';
     if (score > highscore) {
       highscore = score;
-      document.querySelector('.highscore').textContent = highscore;
+      highscoreNode.textContent = highscore;
     }
   } else {
     score -= 1;
-    document.querySelector('.score').textContent = score;
-    if (guess < secret_num) {
-      document.querySelector('.message').textContent = '⬆️ Higher.';
-    } else {
-      document.querySelector('.message').textContent = '⬇️ Lower.';
+    if (score == 0) {
+      messageNode.textContent = 'Gameover 💥. You lose! ';
+      bodyNode.style.backgroundColor = '#fb7a6c';
+      game_over_flag = true;
+      return;
     }
+    document.querySelector('.score').textContent = score;
+    guess < secret_num
+      ? (messageNode.textContent = '⬆️ Higher.')
+      : (messageNode.textContent = '⬇️ Lower.');
   }
 };
 
 const againLogic = () => {
+  // == Reset values ==
   game_over_flag = false;
-  document.querySelector('.guess').value = null;
-  document.querySelector('.message').textContent = 'Start guessing...';
   score = 20;
-  document.querySelector('.score').textContent = score;
   secret_num = Math.trunc(Math.random() * 20 + 1);
-  document.querySelector('body').style.backgroundColor = '#222';
+
+  guessNode.value = null;
+  messageNode.textContent = 'Start guessing...';
+  scoreNode.textContent = score;
+  bodyNode.style.backgroundColor = '#222';
 };
 
 document.querySelector('.check').addEventListener('click', gameLogic);
