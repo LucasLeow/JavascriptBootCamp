@@ -16,3 +16,9 @@ for (let i = 0; i < openModalNodes.length; i++) {
 
 closeModalNode.addEventListener('click', toggleModals);
 overlayNode.addEventListener('click', toggleModals);
+
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') {
+    toggleModals();
+  }
+});
