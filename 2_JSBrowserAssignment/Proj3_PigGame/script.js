@@ -16,29 +16,52 @@ const p2Node = document.querySelector('section.player--1');
 
 // Button Nodes
 const diceBtnNode = document.querySelector('.btn--roll');
+const holdBtnNode = document.querySelector('.btn--hold');
 
 p1ScoreNode.textContent = p1Score;
 p2ScoreNode.textContent = p2Score;
 
+const checkActivePlayer = () => {
+  return p1Node.classList.contains('player--active') ? p1Node : p2Node;
+};
+
+const toggleActivePlayer = () => {
+  p1Node.classList.toggle('player--active');
+  p2Node.classList.toggle('player--active');
+};
+
 // Event Listener Functions
 const rollDice = () => {
-  let activePlayer;
+  let activePlayer = checkActivePlayer();
+  let activePlayerScoreNode = activePlayer.querySelector('.score');
   let rollResult = Math.floor(Math.random() * 6) + 1;
   diceImgNode.setAttribute('src', `dice-${rollResult}.png`);
 
-  p1Node.classList.contains('player--active')
-    ? (activePlayer = p1CurrentScoreNode)
-    : (activePlayer = p2CurrentScoreNode);
-
   if (rollResult === 1) {
     currentScore = 0;
-    p1Node.classList.toggle('player--active');
-    p2Node.classList.toggle('player--active');
+    toggleActivePlayer();
   } else {
     currentScore += rollResult;
   }
-  activePlayer.textContent = currentScore;
+  activePlayerScoreNode.textContent = currentScore;
+};
+
+const holdScore = () => {
+  let activePlayer = checkActivePlayer();
+  p1Node.classList.contains('player--active')
+    ? (p1Score += currentScore)
+    : (p2Score += currentScore);
+
+  p1Node.classList.contains('player--active')
+    ? (p1Node.querySelector('.current-score').textContent = p1Score)
+    : (p2Node.querySelector('.current-score').textContent = p2Score);
+
+  currentScore = 0;
+  activePlayer.querySelector('.score').textContent = currentScore;
+
+  toggleActivePlayer();
 };
 
 // == Event Listeners ==
 diceBtnNode.addEventListener('click', rollDice);
+holdBtnNode.addEventListener('click', holdScore);
