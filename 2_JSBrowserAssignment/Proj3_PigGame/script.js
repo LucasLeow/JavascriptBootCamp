@@ -13,10 +13,17 @@ const diceImgNode = document.querySelector('.dice');
 // Button Nodes
 const diceBtnNode = document.querySelector('.btn--roll');
 const holdBtnNode = document.querySelector('.btn--hold');
+const newGameBtnNode = document.querySelector('.btn--new');
 
-p1Node.querySelector('.score').textContent = p1Score;
-p2Node.querySelector('.score').textContent = p2Score;
+const displayScore = () => {
+  p1Node.querySelector('.score').textContent = p1Score;
+  p2Node.querySelector('.score').textContent = p2Score;
 
+  p1Node.querySelector('.current-score').textContent = currentScore;
+  p2Node.querySelector('.current-score').textContent = currentScore;
+};
+
+displayScore();
 const checkActivePlayer = () => {
   return p1Node.classList.contains('player--active') ? p1Node : p2Node;
 };
@@ -52,9 +59,6 @@ const holdScore = () => {
     return;
   }
   let activePlayer = checkActivePlayer();
-  //   if (Number() >= 10) {
-  //     console.log(`${activePlayer.querySelector('name').textContent} Wins`);
-  //   }
   p1Node.classList.contains('player--active')
     ? (p1Score += currentScore)
     : (p2Score += currentScore);
@@ -78,8 +82,13 @@ const holdScore = () => {
   toggleActivePlayer();
 };
 
-// check winner
+const newGame = () => {
+  game_over_flag = false;
+  (p1Score = 0), (p2Score = 0), (currentScore = 0);
+  displayScore();
+};
 
 // == Event Listeners ==
 diceBtnNode.addEventListener('click', rollDice);
 holdBtnNode.addEventListener('click', holdScore);
+newGameBtnNode.addEventListener('click', newGame);
