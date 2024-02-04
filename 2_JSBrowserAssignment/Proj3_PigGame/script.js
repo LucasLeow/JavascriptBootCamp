@@ -4,22 +4,18 @@ const WIN_CRITERIA = 100;
 let p1Score = 0;
 let p2Score = 0;
 let currentScore = 0;
-
-const p1ScoreNode = document.getElementById('score--0');
-const p2ScoreNode = document.getElementById('score--1');
-const diceImgNode = document.querySelector('.dice');
-const p1CurrentScoreNode = document.getElementById('current--0');
-const p2CurrentScoreNode = document.getElementById('current--1');
+let game_over_flag = false;
 
 const p1Node = document.querySelector('section.player--0');
 const p2Node = document.querySelector('section.player--1');
+const diceImgNode = document.querySelector('.dice');
 
 // Button Nodes
 const diceBtnNode = document.querySelector('.btn--roll');
 const holdBtnNode = document.querySelector('.btn--hold');
 
-p1ScoreNode.textContent = p1Score;
-p2ScoreNode.textContent = p2Score;
+p1Node.querySelector('.score').textContent = p1Score;
+p2Node.querySelector('.score').textContent = p2Score;
 
 const checkActivePlayer = () => {
   return p1Node.classList.contains('player--active') ? p1Node : p2Node;
@@ -32,6 +28,10 @@ const toggleActivePlayer = () => {
 
 // Event Listener Functions
 const rollDice = () => {
+  if (game_over_flag) {
+    alert('Gameover! Please click New Game to play again.');
+    return;
+  }
   let activePlayer = checkActivePlayer();
   let activePlayerScoreNode = activePlayer.querySelector('.score');
   let rollResult = Math.floor(Math.random() * 6) + 1;
@@ -47,7 +47,14 @@ const rollDice = () => {
 };
 
 const holdScore = () => {
+  if (game_over_flag) {
+    alert('Game over! Please click New Game to play again.');
+    return;
+  }
   let activePlayer = checkActivePlayer();
+  //   if (Number() >= 10) {
+  //     console.log(`${activePlayer.querySelector('name').textContent} Wins`);
+  //   }
   p1Node.classList.contains('player--active')
     ? (p1Score += currentScore)
     : (p2Score += currentScore);
@@ -58,9 +65,20 @@ const holdScore = () => {
 
   currentScore = 0;
   activePlayer.querySelector('.score').textContent = currentScore;
+  if (
+    Number(activePlayer.querySelector('.current-score').textContent) >=
+    WIN_CRITERIA
+  ) {
+    activePlayer.classList.toggle('player--winner');
+    let winner = activePlayer.querySelector('.name').textContent;
+    activePlayer.querySelector('.name').textContent = winner + ' Wins!';
 
+    game_over_flag = true;
+  }
   toggleActivePlayer();
 };
+
+// check winner
 
 // == Event Listeners ==
 diceBtnNode.addEventListener('click', rollDice);
