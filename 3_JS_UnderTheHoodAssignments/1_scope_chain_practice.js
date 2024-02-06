@@ -16,6 +16,7 @@ function calcAge(birthYear) {
       // function add is block-scoped if use strict mode is used
       function add(a, b) {
         return a + b;
+        firstName = 'latestName'; // reassigning firstName here will only take effect if firstName access within this block
       }
     }
   }
