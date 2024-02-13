@@ -17,7 +17,7 @@ const poll = {
   },
   displayResults(type) {
     if (type === 'array') {
-      console.log(`${this.answers}`);
+      console.log(`[${this.answers}]`);
     } else if (type === 'string') {
       let answer_string = this.answers.join(', ');
       console.log(`Poll results are ${answer_string}`);
@@ -27,3 +27,9 @@ const poll = {
 
 let ans_poll_btn_node = document.querySelector('.poll');
 ans_poll_btn_node.addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
+poll.displayResults.call({ answers: [5, 2, 3] }, 'array');
+
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'array');
