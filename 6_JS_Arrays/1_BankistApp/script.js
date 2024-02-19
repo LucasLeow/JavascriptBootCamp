@@ -91,4 +91,10 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const movementsDescriptions = movements.map((val, idx) => {
+  return val > 0
+    ? `Movement ${idx + 1}: You deposited ${val}`
+    : `Movement ${idx + 1}: You withdrew ${Math.abs(val)}`;
+});
+
 /////////////////////////////////////////////////
