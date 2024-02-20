@@ -70,7 +70,7 @@ const displayMovements = function (movements) {
     <div class="movements__type movements__type--${transact_type}">${
       i + 1
     } ${transact_type}</div>
-    <div class="movements__value">${mov}</div>
+    <div class="movements__value">${mov}$</div>
   </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', mov_string);
@@ -87,6 +87,24 @@ const createUsernames = function (accounts) {
   });
 };
 
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((sum, mov) => sum + mov, 0);
+
+  const withdrawals = Math.abs(
+    movements.filter(mov => mov < 0).reduce((sum, mov) => sum + mov, 0)
+  );
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .reduce((interest_accum, mov) => interest_accum + mov * 0.012, 0);
+
+  labelSumIn.textContent = `$${incomes}`;
+  labelSumOut.textContent = `$${withdrawals}`;
+  labelSumInterest.textContent = `${interest}`;
+};
+
 const calcPrintBalance = function (movements) {
   labelBalance.textContent = '';
 
@@ -97,6 +115,8 @@ const calcPrintBalance = function (movements) {
   labelBalance.textContent = `$${balance}`;
 };
 displayMovements(account1.movements);
+calcPrintBalance(account1.movements);
+calcDisplaySummary(account1.movements);
 createUsernames(accounts);
 
 /////////////////////////////////////////////////
@@ -120,7 +140,5 @@ const movementsDescriptions = movements.map((val, idx) => {
 const withdrawals = movements.filter(function (mov) {
   return mov < 0;
 });
-
-calcPrintBalance(movements);
 
 /////////////////////////////////////////////////
