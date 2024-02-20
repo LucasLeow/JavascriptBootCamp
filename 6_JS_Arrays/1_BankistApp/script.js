@@ -77,8 +77,6 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
 const createUsernames = function (accounts) {
   accounts.forEach(acc => {
     acc.username = acc.owner
@@ -89,8 +87,18 @@ const createUsernames = function (accounts) {
   });
 };
 
+const calcPrintBalance = function (movements) {
+  labelBalance.textContent = '';
+
+  let balance = movements.reduce(function (accum, mov) {
+    return accum + mov;
+  }, 0);
+
+  labelBalance.textContent = `$${balance}`;
+};
+displayMovements(account1.movements);
 createUsernames(accounts);
-console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -108,5 +116,11 @@ const movementsDescriptions = movements.map((val, idx) => {
     ? `Movement ${idx + 1}: You deposited ${val}`
     : `Movement ${idx + 1}: You withdrew ${Math.abs(val)}`;
 });
+
+const withdrawals = movements.filter(function (mov) {
+  return mov < 0;
+});
+
+calcPrintBalance(movements);
 
 /////////////////////////////////////////////////
