@@ -1,10 +1,11 @@
 'use strict';
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // BANKIST APP
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//========================================================================
 // Data
+//========================================================================
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -33,10 +34,11 @@ const account4 = {
   pin: 4444,
 };
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const accounts = [account1, account2, account3, account4];
 
-// Elements
+//========================================================================
+// HTML Elements
+//========================================================================
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -62,6 +64,25 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+//========================================================================
+// Creating Usernames for each user
+//========================================================================
+const createUsernames = function (accounts) {
+  accounts.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map((str, idx) => str[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+
+//========================================================================
+// Display Methods (used in event listener)
+//========================================================================
+
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
   movements.forEach(function (mov, i) {
@@ -75,16 +96,6 @@ const displayMovements = function (movements) {
   </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', mov_string);
-  });
-};
-
-const createUsernames = function (accounts) {
-  accounts.forEach(acc => {
-    acc.username = acc.owner
-      .toLowerCase()
-      .split(' ')
-      .map((str, idx) => str[0])
-      .join('');
   });
 };
 
@@ -119,12 +130,12 @@ const calcPrintBalance = function (movements) {
   labelBalance.textContent = `$${balance}`;
 };
 
-createUsernames(accounts);
-
 let currentAccount;
 let authenticated;
 
-// Login event listener
+//========================================================================
+// Event Listeners
+//========================================================================
 btnLogin.addEventListener('click', function (ev) {
   ev.preventDefault();
 
@@ -149,9 +160,11 @@ btnLogin.addEventListener('click', function (ev) {
   }
 });
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//========================================================================
+// Lecture Practices
+//========================================================================
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -169,4 +182,4 @@ const withdrawals = movements.filter(function (mov) {
   return mov < 0;
 });
 
-/////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
