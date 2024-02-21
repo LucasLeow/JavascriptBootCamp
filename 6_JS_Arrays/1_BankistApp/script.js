@@ -33,6 +33,7 @@ const account4 = {
   pin: 4444,
 };
 
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const accounts = [account1, account2, account3, account4];
 
 // Elements
@@ -87,7 +88,7 @@ const createUsernames = function (accounts) {
   });
 };
 
-const calcDisplaySummary = function (movements) {
+const calcDisplaySummary = function (movements, usr_interest) {
   const incomes = movements
     .filter(mov => mov > 0)
     .reduce((sum, mov) => sum + mov, 0);
@@ -98,11 +99,14 @@ const calcDisplaySummary = function (movements) {
 
   const interest = movements
     .filter(mov => mov > 0)
-    .reduce((interest_accum, mov) => interest_accum + mov * 0.012, 0);
+    .reduce(
+      (interest_accum, mov) => interest_accum + mov * (usr_interest / 100),
+      0
+    );
 
   labelSumIn.textContent = `$${incomes}`;
   labelSumOut.textContent = `$${withdrawals}`;
-  labelSumInterest.textContent = `${interest}`;
+  labelSumInterest.textContent = `$${interest}`;
 };
 
 const calcPrintBalance = function (movements) {
@@ -114,10 +118,36 @@ const calcPrintBalance = function (movements) {
 
   labelBalance.textContent = `$${balance}`;
 };
-displayMovements(account1.movements);
-calcPrintBalance(account1.movements);
-calcDisplaySummary(account1.movements);
+
 createUsernames(accounts);
+
+let currentAccount;
+let authenticated;
+
+// Login event listener
+btnLogin.addEventListener('click', function (ev) {
+  ev.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+
+  if (currentAccount) {
+    if (Number(inputLoginPin.value) === currentAccount.pin) {
+      containerApp.style.opacity = '.9';
+      labelWelcome.textContent = `Welcome Back, ${
+        currentAccount.owner.split(' ')[0]
+      }`;
+      displayMovements(currentAccount.movements);
+      calcPrintBalance(currentAccount.movements);
+      calcDisplaySummary(currentAccount.movements, currentAccount.interestRate);
+      inputLoginUsername.value = inputLoginPin.value = '';
+      inputLoginPin.blur();
+    } else alert('Incorrect password');
+  } else {
+    alert('Account not found');
+  }
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -128,8 +158,6 @@ const currencies = new Map([
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
-
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const movementsDescriptions = movements.map((val, idx) => {
   return val > 0
