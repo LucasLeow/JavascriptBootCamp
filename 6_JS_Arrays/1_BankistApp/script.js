@@ -218,6 +218,19 @@ btnClose.addEventListener('click', function (ev) {
     inputCloseUsername.value = inputClosePin.value = '';
   }
 });
+
+btnLoan.addEventListener('click', function (ev) {
+  ev.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(val => val >= amount * 0.1)) {
+    currentAccount.movements.push(amount);
+    updateUI(currentAccount.movements, currentAccount.interestRate);
+  } else {
+    alert('invalid amount or insufficient deposit.');
+  }
+  inputLoanAmount.value = '';
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //========================================================================
 // Lecture Practices
