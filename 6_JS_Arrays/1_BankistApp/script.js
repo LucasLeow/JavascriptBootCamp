@@ -160,6 +160,9 @@ btnLogin.addEventListener('click', function (ev) {
   }
 });
 
+btnTransfer.addEventListener('click', function (ev) {
+  ev.preventDefault();
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //========================================================================
 // Lecture Practices
