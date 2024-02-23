@@ -83,9 +83,12 @@ createUsernames(accounts);
 // Display Methods (used in event listener)
 //========================================================================
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
+  const new_movements = sort
+    ? movements.slice().sort((a, b) => a - b)
+    : movements;
   containerMovements.innerHTML = '';
-  movements.forEach(function (mov, i) {
+  new_movements.forEach(function (mov, i) {
     const transact_type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const mov_string = `<div class="movements__row">
@@ -230,6 +233,13 @@ btnLoan.addEventListener('click', function (ev) {
     alert('invalid amount or insufficient deposit.');
   }
   inputLoanAmount.value = '';
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (ev) {
+  ev.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //========================================================================
