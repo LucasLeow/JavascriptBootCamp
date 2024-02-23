@@ -196,8 +196,27 @@ btnTransfer.addEventListener('click', function (ev) {
     alert('Invalid target user. Please try again');
     inputTransferAmount.value = inputTransferTo.value = '';
   }
+});
 
-  console.log(currentBal);
+btnClose.addEventListener('click', function (ev) {
+  ev.preventDefault();
+  const user_confirm = inputCloseUsername.value;
+  const user_pin_confirm = Number(inputClosePin.value);
+  if (
+    user_confirm === currentAccount.username &&
+    user_pin_confirm === currentAccount.pin
+  ) {
+    const index_to_delete = accounts.findIndex(
+      acc => acc.username === user_confirm
+    );
+    accounts.splice(index_to_delete, 1);
+    containerApp.style.opacity = 0;
+    alert('Account deleted');
+    inputCloseUsername.value = inputClosePin.value = '';
+  } else {
+    alert('Invalid user or password. Please try again');
+    inputCloseUsername.value = inputClosePin.value = '';
+  }
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //========================================================================
