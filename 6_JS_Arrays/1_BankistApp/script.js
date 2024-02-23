@@ -243,14 +243,17 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movementsDescriptions = movements.map((val, idx) => {
-  return val > 0
-    ? `Movement ${idx + 1}: You deposited ${val}`
-    : `Movement ${idx + 1}: You withdrew ${Math.abs(val)}`;
-});
+// const movementsDescriptions = movements.map((val, idx) => {
+//   return val > 0
+//     ? `Movement ${idx + 1}: You deposited ${val}`
+//     : `Movement ${idx + 1}: You withdrew ${Math.abs(val)}`;
+// });
 
-const withdrawals = movements.filter(function (mov) {
-  return mov < 0;
-});
+// const withdrawals = movements.filter(function (mov) {
+//   return mov < 0;
+// });
 
+const accountMovements = accounts.map(acc => acc.movements).flat();
+let totalBalance = accountMovements.reduce((sum, val) => sum + val, 0);
+console.log(totalBalance);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
