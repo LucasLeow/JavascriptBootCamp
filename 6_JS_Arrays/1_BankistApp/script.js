@@ -134,6 +134,15 @@ let currentAccount;
 let authenticated;
 
 //========================================================================
+// Helper Functions
+//========================================================================
+const updateUI = function (balance_arr, interest = null) {
+  displayMovements(balance_arr);
+  calcPrintBalance(balance_arr);
+  calcDisplaySummary(balance_arr, interest);
+};
+
+//========================================================================
 // Event Listeners
 //========================================================================
 btnLogin.addEventListener('click', function (ev) {
@@ -149,9 +158,7 @@ btnLogin.addEventListener('click', function (ev) {
       labelWelcome.textContent = `Welcome Back, ${
         currentAccount.owner.split(' ')[0]
       }`;
-      displayMovements(currentAccount.movements);
-      calcPrintBalance(currentAccount.movements);
-      calcDisplaySummary(currentAccount.movements, currentAccount.interestRate);
+      updateUI(currentAccount.movements, currentAccount.interestRate);
       inputLoginUsername.value = inputLoginPin.value = '';
       inputLoginPin.blur();
     } else alert('Incorrect password');
@@ -162,6 +169,35 @@ btnLogin.addEventListener('click', function (ev) {
 
 btnTransfer.addEventListener('click', function (ev) {
   ev.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => inputTransferTo.value === acc.username
+  );
+  if (receiverAcc && receiverAcc.username != currentAccount.username) {
+    let currentBal = currentAccount.movements.reduce(
+      (sum, val) => sum + val,
+      0
+    );
+
+    if (currentBal - amount < 0) {
+      alert('Insufficient balance to transfer');
+    } else if (amount < 0) {
+      alert('Invalid amount input, please try again');
+    } else {
+      currentAccount.movements.push(-1 * amount);
+      receiverAcc.movements.push(amount);
+      updateUI(currentAccount.movements, currentAccount.interestRate);
+
+      inputTransferAmount.value = inputTransferTo.value = '';
+      alert('Amount transferred successfully');
+    }
+  } else {
+    alert('Invalid target user. Please try again');
+    inputTransferAmount.value = inputTransferTo.value = '';
+  }
+
+  console.log(currentBal);
 });
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //========================================================================
