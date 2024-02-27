@@ -81,19 +81,18 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const formatDateMovement = function (date) {
+const formatDateMovement = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.trunc(Math.abs(date2 - date1) / (24 * 60 * 60 * 1000));
   let currentDate = new Date();
   let day_diff = calcDaysPassed(currentDate, date);
   // console.log(date_diff);
   if (day_diff === 0) {
-    return `TODAY`;
+    return `Today`;
   }
-  return `${day_diff} days ago`;
-  return `${date.getDate()}/${
-    date.getMonth() + 1
-  }/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes()}`;
+  if (day_diff === 1) return 'Yesterday';
+  if (day_diff <= 7) return `${day_diff} days ago`;
+  return new Intl.DateTimeFormat(currentAccount.locale).format(date);
 };
 
 const displayMovements = function (acc, sort = false) {
@@ -106,12 +105,11 @@ const displayMovements = function (acc, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i]);
-    const html = `return
-      <div class="movements__row">
+    const html = `<div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-    <div class="movements__date">${formatDateMovement(date)}</div>
+    <div class="movements__date">${formatDateMovement(date, acc.locale)}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -177,7 +175,17 @@ updateUI(currentAccount);
 containerApp.style.opacity = 100;
 
 const now = new Date();
-labelDate.textContent = formatDateMovement(now);
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'numeric',
+  year: 'numeric',
+};
+labelDate.textContent = new Intl.DateTimeFormat(
+  currentAccount.locale,
+  options
+).format(now);
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
