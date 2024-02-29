@@ -2,6 +2,7 @@
 const country = 'RepublicNation';
 const continent = 'RepublicContinent';
 let population = 1000000;
+let test = 1000;
 
 console.log(`Country: ${country} | Continent: ${continent} | Population: ${population}`);
 
