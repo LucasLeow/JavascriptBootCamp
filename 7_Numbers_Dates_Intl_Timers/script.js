@@ -173,25 +173,40 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+const startLogOutTimer = function () {
+  let timeLeft = 65;
+  let tick = function () {
+    const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+    const seconds = String(timeLeft - minutes * 60).padStart(2, '0');
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      currentAccount = null;
+      containerApp.style.opacity = 0;
+    }
+    labelTimer.textContent = `${minutes}:${seconds}`;
+    timeLeft--;
+  };
+  tick();
+  let countdown = setInterval(tick, 1000, timeLeft);
+  return countdown;
+};
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
+let existing_timer;
 
-const now = new Date();
-const options = {
-  hour: 'numeric',
-  minute: 'numeric',
-  day: 'numeric',
-  month: 'numeric',
-  year: 'numeric',
-};
-labelDate.textContent = new Intl.DateTimeFormat(
-  currentAccount.locale,
-  options
-).format(now);
+// const now = new Date();
+// const options = {
+//   hour: 'numeric',
+//   minute: 'numeric',
+//   day: 'numeric',
+//   month: 'numeric',
+//   year: 'numeric',
+// };
+// labelDate.textContent = new Intl.DateTimeFormat(
+//   currentAccount.locale,
+//   options
+// ).format(now);
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -208,6 +223,8 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+    if (existing_timer) clearInterval(existing_timer);
+    existing_timer = startLogOutTimer();
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -251,11 +268,13 @@ btnLoan.addEventListener('click', function (e) {
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date());
+    setTimeout(function () {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date());
 
-    // Update UI
-    updateUI(currentAccount);
+      // Update UI
+      updateUI(currentAccount);
+    }, 1500);
   }
   inputLoanAmount.value = '';
 });
