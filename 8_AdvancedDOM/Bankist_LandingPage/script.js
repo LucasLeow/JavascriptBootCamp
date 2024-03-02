@@ -69,3 +69,49 @@ btnScrollTo.addEventListener('click', ev => {
     behavior: 'smooth',
   });
 });
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Page navigation (Smooth Scrolling) using Event delegation
+// --------------------------------------------------------------------------------------------------------------------------------------------
+document.querySelector('.nav__links').addEventListener('click', function (ev) {
+  ev.preventDefault();
+  console.log(ev.target);
+  if (ev.target.classList.contains('nav__link')) {
+    const id = ev.target.getAttribute('href');
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Lecture practice
+// const randomInt = (min, max) =>
+//   Math.floor(Math.random() * (max - min + 1) + min);
+
+// const randomColor = () =>
+//   `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+// document.querySelector('.nav__link').addEventListener(
+//   'click',
+//   function (ev) {
+//     this.style.backgroundColor = randomColor();
+//   },
+//   true
+// );
+
+// document.querySelector('.nav__links').addEventListener(
+//   'click',
+//   function (ev) {
+//     this.style.backgroundColor = randomColor();
+//   },
+//   true
+// );
+
+// document.querySelector('.nav').addEventListener(
+//   'click',
+//   function (ev) {
+//     this.style.backgroundColor = randomColor();
+//   },
+//   true
+// );
