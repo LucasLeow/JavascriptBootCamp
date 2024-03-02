@@ -32,8 +32,12 @@ document.addEventListener('keydown', function (e) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//--------------------------------------------------------------------------------------------------------------------------------------------
+// Cookie footer using JS
+// --------------------------------------------------------------------------------------------------------------------------------------------
 const header = document.querySelector('.header');
+
 const message = document.createElement('div');
 message.classList.add('cookie-message');
 message.innerHTML = `We use cookies for improved functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>`;
@@ -42,3 +46,26 @@ header.append(message);
 document
   .querySelector('.btn--close-cookie')
   .addEventListener('click', () => message.remove());
+
+// Working with styles using JS
+console.log(getComputedStyle(message));
+
+message.style.backgroundColor = '#37383d';
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Smooth Scrolling
+// --------------------------------------------------------------------------------------------------------------------------------------------
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', ev => {
+  const section1Coords = section1.getBoundingClientRect();
+
+  window.scrollTo({
+    left: section1Coords.left + window.pageXOffset,
+    top: section1Coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
+});
