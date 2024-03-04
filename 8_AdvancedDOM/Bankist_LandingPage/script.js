@@ -107,6 +107,34 @@ tabsContainer.addEventListener('click', ev => {
     .querySelector(`.operations__content--${clicked.getAttribute('data-tab')}`)
     .classList.add('operations__content--active');
 });
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Menu fade animation
+// --------------------------------------------------------------------------------------------------------------------------------------------
+const handleFadeOver = function (ev, opacity) {
+  if (ev.target.classList.contains('nav__link')) {
+    // matching strategy to check which child clicked
+    const navLink = ev.target;
+    const navLinks = navLink.closest('.nav').querySelectorAll('.nav__link');
+
+    navLinks.forEach(link => {
+      if (link !== navLink) link.style.opacity = `${opacity}`;
+    });
+  }
+  const logo = nav.querySelector('img');
+  logo.style.opacity = `${opacity}`;
+};
+
+// Event delegation for links in navbar, step 1 is to get parent
+const nav = document.querySelector('.nav'); // parent element for links
+nav.addEventListener('mouseover', ev => {
+  handleFadeOver(ev, 0.5);
+});
+
+// To undo opacity
+nav.addEventListener('mouseout', ev => {
+  handleFadeOver(ev, 1);
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Lecture practice
