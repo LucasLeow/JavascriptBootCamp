@@ -83,6 +83,30 @@ document.querySelector('.nav__links').addEventListener('click', function (ev) {
   }
 });
 
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Tabbed Components using vanilla JS
+// --------------------------------------------------------------------------------------------------------------------------------------------
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const operations_content = document.querySelectorAll('.operations__content');
+
+// Event delegation, step 1: assign to parent
+tabsContainer.addEventListener('click', ev => {
+  const clicked = ev.target.closest('.operations__tab'); // step 2, match strategy to identify child
+  if (!clicked) return; // anywhere else within container that is not on the buttons
+
+  // if clicked, remove existing tab content to make way for new tab content
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  operations_content.forEach(content =>
+    content.classList.remove('operations__content--active')
+  );
+
+  // Activate content area that was clicked
+  clicked.classList.add('operations__tab--active');
+  document
+    .querySelector(`.operations__content--${clicked.getAttribute('data-tab')}`)
+    .classList.add('operations__content--active');
+});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Lecture practice
