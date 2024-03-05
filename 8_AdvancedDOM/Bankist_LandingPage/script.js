@@ -139,6 +139,21 @@ nav.addEventListener('mouseout', ev => {
 // --------------------------------------------------------------------------------------------------------------------------------------------
 // Sticky Navbar
 // --------------------------------------------------------------------------------------------------------------------------------------------
+const navHeight = nav.getBoundingClientRect().height;
+const hdrObsOpt = {
+  root: null, // null means entire viewport is observed
+  threshold: 0, // when 0% of header is observed in viewport, perform callback
+  rootMargin: `-${navHeight}px`, // begin 90px before threshold was reached. only accept px unit
+};
+
+const stickyNavCallBack = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNavCallBack, hdrObsOpt);
+headerObserver.observe(header);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
