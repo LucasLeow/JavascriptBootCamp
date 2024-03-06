@@ -158,6 +158,30 @@ headerObserver.observe(header);
 // --------------------------------------------------------------------------------------------------------------------------------------------
 // Reveal element on mouse scroll
 // --------------------------------------------------------------------------------------------------------------------------------------------
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target); // unobserve target element after performing desired action
+};
+const revealSectionOption = {
+  root: null, // viewport as the reference element
+  threshold: 0.15, // execute callback when intersection is 15% between viewport & sections
+};
+
+const sectionObserver = new IntersectionObserver( // init IntersectionObserver obj with callback & option
+  revealSection,
+  revealSectionOption
+);
+
+allSections.forEach(section => {
+  // attach intersection observer to target elements
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
