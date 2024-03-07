@@ -183,6 +183,37 @@ allSections.forEach(section => {
   section.classList.add('section--hidden');
 });
 
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// Lazy loading images while scrolling
+// --------------------------------------------------------------------------------------------------------------------------------------------
+const imgTargets = document.querySelectorAll('img[data-src]'); // using css attribute selector
+
+const loadImage = function (entries, observer) {
+  const [entry] = entries; // destructure entry obj, holding on to required info of target element
+
+  if (!entry.isIntersecting) return; // guard clause to not do anything if not intersecting
+
+  entry.target.src = entry.target.dataset.src; // if viewport intersect img, change low res img src to high res img src
+
+  // if add class remove outside eventlistener, high resolution img may not load finish but blur effect already removed
+  // therefore, best to only remove blur effect after img loaded (using event listener)
+  entry.target.addEventListener('load', function (ev) {
+    // 'load' event called when img finished loading
+    entry.target.classList.remove('lazy-img'); // lazy-img is class that cause blur effect
+  });
+
+  observer.unobserver(entry.target); // unobserve target img element after performing action
+};
+
+const imgObserverOptions = {
+  root: null, // reference element is the viewport
+  threshold: 0, // the moment viewport touches img, will execute callback
+};
+
+const imgObserver = new IntersectionObserver(loadImage, imgObserverOptions);
+
+imgTargets.forEach(img => imgObserver.observe(img)); // target element is all imges with data-src attribute
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Lecture practice
