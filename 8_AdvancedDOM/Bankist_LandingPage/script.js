@@ -202,18 +202,105 @@ const loadImage = function (entries, observer) {
     entry.target.classList.remove('lazy-img'); // lazy-img is class that cause blur effect
   });
 
-  observer.unobserver(entry.target); // unobserve target img element after performing action
+  observer.unobserve(entry.target); // unobserve target img element after performing action
 };
 
 const imgObserverOptions = {
   root: null, // reference element is the viewport
   threshold: 0, // the moment viewport touches img, will execute callback
-  rootMargin: '-200px', // perform action 200px before intersection (i.e load image before user even scroll till image)
+  rootMargin: '200px', // perform action 200px before intersection (i.e load image before user even scroll till image)
 };
 
 const imgObserver = new IntersectionObserver(loadImage, imgObserverOptions);
 
 imgTargets.forEach(img => imgObserver.observe(img)); // target element is all imges with data-src attribute
+
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// carousell (tab-sliders)
+// --------------------------------------------------------------------------------------------------------------------------------------------
+const slider = document.querySelector('.slider');
+const slides = document.querySelectorAll('.slide');
+
+const tabBtnLeft = document.querySelector('.slider__btn--left');
+const tabBtnRight = document.querySelector('.slider__btn--right');
+
+const dotsContainer = document.querySelector('.dots'); // to select <div class='dots'></div>
+
+let curSlide = 0;
+const maxSlide = slides.length;
+
+const createDots = function () {
+  slides.forEach(function (_, idx) {
+    dotsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${idx}"></button>`
+    );
+  });
+};
+
+const activeDots = function (slide_num) {
+  // to show which active dot is selected
+  document
+    .querySelectorAll('.dots__dot')
+    .forEach(dot => dot.classList.remove('dots__dot--active')); // first make all dots inactive
+
+  document
+    .querySelector(`.dots__dot[data-slide="${slide_num}"]`)
+    .classList.add('dots__dot--active');
+};
+
+const goToSlide = function (slide_num) {
+  slides.forEach(
+    (slide, i) =>
+      (slide.style.transform = `translateX(${(i - slide_num) * 100}%)`)
+  );
+  activeDots(slide_num);
+};
+
+const nextSlide = function () {
+  if (curSlide === maxSlide - 1) return;
+  curSlide++;
+  goToSlide(curSlide);
+  activeDots(curSlide);
+};
+
+const prevSlide = function () {
+  if (curSlide === 0) return;
+  curSlide--;
+  goToSlide(curSlide);
+  activeDots(curSlide);
+};
+
+const initTabSlider = function () {
+  createDots();
+  slider.style.overflow = 'visible'; // hidden or visible choice
+  goToSlide(0); // initial position for all tabs
+  activeDots(0); // activate dots for initial tab
+};
+
+initTabSlider();
+
+tabBtnRight.addEventListener('click', function () {
+  nextSlide();
+});
+
+tabBtnLeft.addEventListener('click', function () {
+  prevSlide();
+});
+
+document.addEventListener('keydown', function (ev) {
+  console.log(ev.key);
+  console.log(curSlide);
+  if (ev.key === 'ArrowLeft') prevSlide();
+  if (ev.key === 'ArrowRight') nextSlide();
+});
+
+dotsContainer.addEventListener('click', function (ev) {
+  if (ev.target.classList.contains('dots__dot')) {
+    const slide_num = ev.target.dataset.slide;
+    goToSlide(slide_num);
+  }
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
