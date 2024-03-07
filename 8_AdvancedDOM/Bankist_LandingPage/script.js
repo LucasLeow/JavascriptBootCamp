@@ -208,6 +208,7 @@ const loadImage = function (entries, observer) {
 const imgObserverOptions = {
   root: null, // reference element is the viewport
   threshold: 0, // the moment viewport touches img, will execute callback
+  rootMargin: '-200px', // perform action 200px before intersection (i.e load image before user even scroll till image)
 };
 
 const imgObserver = new IntersectionObserver(loadImage, imgObserverOptions);
