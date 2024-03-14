@@ -25,6 +25,24 @@ if (navigator.geolocation) {
       // L is the Leaflet namespace for calling leaflet obj
       const map = L.map('map').setView(coords, 15); // 'map', in html has <div id="map"></div> for mapping code to html
 
+      // Event Listener for adding marker on click
+      map.on('click', function (mapEvent) {
+        const { lat, lng } = mapEvent.latlng;
+        L.marker([lat, lng], { riseOnHover: true })
+          .addTo(map)
+          .bindPopup(
+            L.popup({
+              maxWidth: 250,
+              minWidth: 100,
+              autoClose: false,
+              closeOnClick: false,
+              className: 'running-popup', // css class to be injected to popup
+            })
+          )
+          .setPopupContent('Workout')
+          .openPopup();
+      });
+
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
