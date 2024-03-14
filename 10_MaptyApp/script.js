@@ -11,10 +11,54 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+class Workout {
+  // modern way of declaring public properties
+  date = new Date();
+  id = (Date.now() + '').slice(-10); // typically should use library to generate numbers, this is quick hack
+
+  constructor(coords, distance, duration) {
+    this.coords = coords; // [lat, lng]
+    this.distance = distance; // in km
+    this.duration = duration; // in mins
+  }
+}
+
+class Running extends Workout {
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+    this.calc_pace(); // calling methods in constructor will immediately execute method upon instantiation of obj
+  }
+
+  calc_pace() {
+    // in mins / km
+    this.pace = this.duration / this.distance;
+    return this;
+  }
+}
+
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+    this.calc_speed();
+  }
+
+  calc_speed() {
+    // speed in km/h
+    this.speed = this.distance / (this.duration / 60);
+  }
+}
+
+const test_run = new Running([39, -12], 5.2, 24, 167);
+const test_cycle = new Cycling([33, -10], 10, 20, 20);
+
+console.log(test_run, test_cycle);
 class App {
   // private instance
   #map;
   #mapEvent;
+
   constructor() {
     this._getPosition();
     form.addEventListener('submit', this._newWorkout.bind(this)); // eventListener provide dom element as context, need to manual add context
@@ -32,11 +76,6 @@ class App {
         }
       );
     }
-  }
-
-  set mapEvent(mapEvt) {
-    // setter fn to modify private property
-    this.#mapEvent = mapEvt;
   }
 
   _loadMap(position) {
@@ -102,6 +141,11 @@ class App {
       )
       .setPopupContent('Workout')
       .openPopup();
+  }
+
+  set mapEvent(mapEvt) {
+    // setter fn to modify private property
+    this.#mapEvent = mapEvt;
   }
 }
 
