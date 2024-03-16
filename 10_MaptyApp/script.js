@@ -1,8 +1,5 @@
 'use strict';
 
-// prettier-ignore
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -21,6 +18,14 @@ class Workout {
     this.distance = distance; // in km
     this.duration = duration; // in mins
   }
+
+  _setDescription() {
+    //prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
+      months[this.date.getMonth()]
+    } ${this.date.getDate()}`;
+  }
 }
 
 class Running extends Workout {
@@ -30,6 +35,7 @@ class Running extends Workout {
     super(coords, distance, duration);
     this.cadence = cadence;
     this.calc_pace(); // calling methods in constructor will immediately execute method upon instantiation of obj
+    this._setDescription();
   }
 
   calc_pace() {
@@ -46,6 +52,7 @@ class Cycling extends Workout {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
     this.calc_speed();
+    this._setDescription();
   }
 
   calc_speed() {
@@ -110,7 +117,29 @@ class App {
   _showForm(mapEvt) {
     this.mapEvent = mapEvt; // save map_event obj is global variable
     form.classList.remove('hidden');
+    let activity_type = inputType.value;
+    if (activity_type === 'running') {
+      inputElevation.closest('.form__row').classList.add('form__row--hidden');
+      inputCadence.closest('.form__row').classList.remove('form__row--hidden');
+    } else {
+      inputElevation
+        .closest('.form__row')
+        .classList.remove('form__row--hidden');
+      inputCadence.closest('.form__row').classList.add('form__row--hidden');
+    }
     inputDistance.focus(); // make the form input distance active
+  }
+
+  _hideForm() {
+    // remove active values in form
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        '';
+    form.style.display = 'none';
+    form.classList.add('hidden');
+    setTimeout(() => (form.style.display = 'grid'), 1000);
   }
 
   _toggleElevationField() {
@@ -133,7 +162,6 @@ class App {
     const duration = Number(inputDuration.value);
     const { lat, lng } = this.#mapEvent.latlng;
     let workout;
-    let workoutClassName;
 
     if (type === 'running') {
       const cadence = Number(inputCadence.value);
@@ -146,7 +174,6 @@ class App {
 
       // Create workout obj according to type (running vs cycling)
       workout = new Running([lat, lng], distance, duration, cadence);
-      workoutClassName = 'running-popup';
     }
 
     if (type === 'cycling') {
@@ -159,26 +186,23 @@ class App {
         return alert('Inputs must be positive integers');
 
       workout = new Cycling([lat, lng], distance, duration, elevation);
-      workoutClassName = 'cycling-popup';
     }
 
     // Add workout obj to workout array
     this.workouts.push(workout);
+    console.log(workout.description);
 
     // render workout on map as marker
-    this.renderWorkoutMarker(workout);
+    this._renderWorkoutMarker(workout);
 
-    // Clear form content after
-    inputDistance.value =
-      inputDuration.value =
-      inputCadence.value =
-      inputElevation.value =
-        '';
+    // render workout list by the side
+    this._renderWorkoutList(workout);
 
-    form.classList.add('hidden');
+    // Hide form after submitting workout
+    this._hideForm();
   }
 
-  renderWorkoutMarker(workout) {
+  _renderWorkoutMarker(workout) {
     console.log(workout);
     L.marker(workout.coords)
       .addTo(this.#map)
@@ -188,11 +212,60 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: `${inputType.value}-popup`, // css class to be injected to popup
+          className: `${workout.type}-popup`, // css class to be injected to popup
         })
       )
-      .setPopupContent(`${workout.distance}`)
+      .setPopupContent(`${workout.description}`)
       .openPopup();
+  }
+
+  _renderWorkoutList(workout) {
+    let html = `
+    <li class="workout workout--${workout.type}" data-id="${workout.id}">
+      <h2 class="workout__title">${workout.description}</h2>
+      <div class="workout__details">
+        <span class="workout__icon">${
+          workout.name === 'running' ? '🏃‍♂️' : '🚴‍♀️'
+        }</span>
+        <span class="workout__value">${workout.distance}</span>
+        <span class="workout__unit">km</span>
+      </div>
+      <div class="workout__details">
+        <span class="workout__icon">⏱</span>
+        <span class="workout__value">${workout.duration}</span>
+        <span class="workout__unit">min</span>
+      </div>
+    `;
+    if (workout.type === 'running') {
+      html += `
+          <div class="workout__details">
+            <span class="workout__icon">⚡️</span>
+            <span class="workout__value">${workout.pace.toFixed(1)}</span>
+            <span class="workout__unit">min/km</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout__icon">🦶🏼</span>
+            <span class="workout__value">${workout.cadence}</span>
+            <span class="workout__unit">spm</span>
+          </div>
+        </li>
+        `;
+    } else {
+      html += `
+          <div class="workout__details">
+            <span class="workout__icon">⚡️</span>
+            <span class="workout__value">${workout.speed}</span>
+            <span class="workout__unit">km/h</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout__icon">⛰</span>
+            <span class="workout__value">${workout.elevationGain}</span>
+            <span class="workout__unit">m</span>
+          </div>
+        </li>
+      `;
+    }
+    form.insertAdjacentHTML('afterend', html);
   }
 
   set mapEvent(mapEvt) {
