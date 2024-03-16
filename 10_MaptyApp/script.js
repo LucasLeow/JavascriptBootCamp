@@ -18,6 +18,7 @@ class Workout {
     this.distance = distance; // in km
     this.duration = duration; // in mins
   }
+
   click() {
     this.clicks++;
   }
@@ -72,6 +73,7 @@ class App {
   constructor() {
     this.workouts = [];
     this._getPosition();
+    this._getLocalStorage();
     form.addEventListener('submit', this._newWorkout.bind(this)); // eventListener provide dom element as context, need to manual add context
     inputType.addEventListener('change', this._toggleElevationField.bind(this)); // event listener to check for change in exercise type (running vs cycling)
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
@@ -107,15 +109,10 @@ class App {
     // Event Listener for adding marker on click & showing workout exercise form
     this.#map.on('click', this._showForm.bind(this)); // eventHandler attach 'this' to attached object, need to pass 'this' as context instead
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(this.#map);
-
-    L.marker(coords)
-      .addTo(this.#map)
-      .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-      .openPopup();
+    this.workouts.forEach(workout => {
+      this._renderWorkoutList(workout);
+      this._renderWorkoutMarker(workout);
+    });
   }
 
   _showForm(mapEvt) {
@@ -204,6 +201,9 @@ class App {
 
     // Hide form after submitting workout
     this._hideForm();
+
+    // set up local storage
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -288,6 +288,21 @@ class App {
     });
     clicked_workout.click();
     console.log(clicked_workout);
+  }
+
+  _setLocalStorage() {
+    // using localstorage API (very small API, recommended for small projects)
+    localStorage.setItem('workouts', JSON.stringify(this.workouts)); // key-value store (value must also be string)
+    // JSON.stringify to convert JS objs to string (typically to be sent as JSON)
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+    // json.parse : converts string back to JS object (JSON are strings)
+    console.log(data);
+    if (!data) return;
+
+    this.workouts = data;
   }
 
   set mapEvent(mapEvt) {
