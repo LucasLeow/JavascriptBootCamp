@@ -12,13 +12,15 @@ class Workout {
   // modern way of declaring public properties
   date = new Date();
   id = (Date.now() + '').slice(-10); // typically should use library to generate numbers, this is quick hack
-
+  clicks = 0;
   constructor(coords, distance, duration) {
     this.coords = coords; // [lat, lng]
     this.distance = distance; // in km
     this.duration = duration; // in mins
   }
-
+  click() {
+    this.clicks++;
+  }
   _setDescription() {
     //prettier-ignore
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -63,6 +65,7 @@ class Cycling extends Workout {
 
 class App {
   // private instance
+  #mapZoomLevel = 15;
   #map;
   #mapEvent;
 
@@ -71,6 +74,7 @@ class App {
     this._getPosition();
     form.addEventListener('submit', this._newWorkout.bind(this)); // eventListener provide dom element as context, need to manual add context
     inputType.addEventListener('change', this._toggleElevationField.bind(this)); // event listener to check for change in exercise type (running vs cycling)
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -98,7 +102,7 @@ class App {
     // //Leaflet library to display map after receiving user's coordinates
     // // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // // L is the Leaflet namespace for calling leaflet obj
-    this.#map = L.map('map').setView(coords, 15); // 'map', in html has <div id="map"></div> for mapping code to html
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel); // 'map', in html has <div id="map"></div> for mapping code to html
 
     // Event Listener for adding marker on click & showing workout exercise form
     this.#map.on('click', this._showForm.bind(this)); // eventHandler attach 'this' to attached object, need to pass 'this' as context instead
@@ -266,6 +270,24 @@ class App {
       `;
     }
     form.insertAdjacentHTML('afterend', html);
+  }
+
+  _moveToPopup(ev) {
+    const workoutEl = ev.target.closest('.workout'); // find the workout marker that was clicked & move to its nearest parent
+    if (!workoutEl) return;
+
+    const clicked_workout = this.workouts.find(
+      workout => workout.id === workoutEl.dataset.id
+    );
+
+    this.#map.setView(clicked_workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    clicked_workout.click();
+    console.log(clicked_workout);
   }
 
   set mapEvent(mapEvt) {
