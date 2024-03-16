@@ -95,9 +95,7 @@ class App {
   _loadMap(position) {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
-    console.log(
-      `https://www.google.com/maps/@${latitude},${longitude},15z?entry=ttu`
-    );
+
     let coords = [latitude, longitude];
 
     // // -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -191,7 +189,6 @@ class App {
 
     // Add workout obj to workout array
     this.workouts.push(workout);
-    console.log(workout.description);
 
     // render workout on map as marker
     this._renderWorkoutMarker(workout);
@@ -207,7 +204,6 @@ class App {
   }
 
   _renderWorkoutMarker(workout) {
-    console.log(workout);
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
@@ -287,7 +283,6 @@ class App {
       },
     });
     clicked_workout.click();
-    console.log(clicked_workout);
   }
 
   _setLocalStorage() {
@@ -299,7 +294,6 @@ class App {
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
     // json.parse : converts string back to JS object (JSON are strings)
-    console.log(data);
     if (!data) return;
 
     this.workouts = data;
@@ -308,6 +302,12 @@ class App {
   set mapEvent(mapEvt) {
     // setter fn to modify private property
     this.#mapEvent = mapEvt;
+  }
+
+  reset() {
+    // remove all existing storage
+    localStorage.removeItem('workouts');
+    location.reload(); // refresh page
   }
 }
 
