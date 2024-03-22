@@ -1,7 +1,7 @@
 'use strict';
 // -------------------------------------------------------------------------------------------------------------------------------------------
 // 1. Create a function 'whereAmI', input ('lat', 'lng') & perform reverse geocoding to retrieve city details
-const API_KEY = '115085540315398e15987151x103927';
+const API_KEY = '';
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
