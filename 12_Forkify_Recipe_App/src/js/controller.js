@@ -1,5 +1,7 @@
 import icons from 'url:../img/icons.svg'; // for parcel 2, static content need to include 'url:'
-console.log(icons);
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 const recipeContainer = document.querySelector('.recipe');
 
 const timeout = function (s) {
