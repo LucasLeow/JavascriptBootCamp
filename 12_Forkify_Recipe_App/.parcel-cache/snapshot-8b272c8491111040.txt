@@ -3148,7 +3148,7 @@
 146D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\@parcel\runtime-browser-hmr\src\loaders133568625605500000 1
 153D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\caniuse-lite\data\features\css-not-sel-list.js133568625660000000 0
 139D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\internals\descriptors.js133569356560000000 0
-120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js.map133569357460000000 0
+120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js.map133569368480000000 0
 140D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\css-tree\lib\syntax\node\Ratio.js133568625680000000 0
 138D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\css-tree\lib\syntax\node\Raw.js133568625680000000 0
 141D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\cosmiconfig\dist\Explorer.d.ts.map133568625600000000 0
@@ -7581,14 +7581,14 @@
 136D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\full\object\freeze.js133569356580000000 0
 100D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js133568094060000000 1
 149D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\modules\esnext.typed-array.with.js133569356580000000 0
-114D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\controller.js133569357460000000 0
+114D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\controller.js133569368480000000 0
 113D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_base.scss133568094060000000 0
 115D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_recipe.scss133568094060000000 0
 119D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_components.scss133568094060000000 0
 122D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_searchResults.scss133568094060000000 0
 115D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_header.scss133568094060000000 0
 115D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\sass\_upload.scss133568094060000000 0
-116D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js133569357460000000 0
+116D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js133569368480000000 0
 145D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\modules\es.typed-array.fill.js133569356560000000 0
 114D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js133569356531500000 1
 146D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\reflect\is-extensible.js133569356600000000 0
