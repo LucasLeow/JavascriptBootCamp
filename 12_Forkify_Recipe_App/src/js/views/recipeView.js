@@ -1,4 +1,6 @@
 import icons from 'url:../../img/icons.svg'; // for parcel 2, static content need to include 'url:'
+import { Fraction } from 'fractional';
+
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
@@ -86,22 +88,7 @@ class RecipeView {
     <h2 class="heading--2">Recipe ingredients</h2>
     <ul class="recipe__ingredient-list">
     ${this.#data.ingredients
-      .map(ing_obj => {
-        return `
-        <li class="recipe__ingredient">
-          <svg class="recipe__icon">
-            <use href="${icons}#icon-check"></use>
-          </svg>
-          <div class="recipe__quantity">${
-            ing_obj.quantity ? ing_obj.quantity : ''
-          }</div>
-          <div class="recipe__description">
-            <span class="recipe__unit">${ing_obj.unit}</span>
-            ${ing_obj.description}
-          </div>
-      </li>
-    `;
-      })
+      .map(ing_obj => this.#generateIngredientsMarkup(ing_obj))
       .join('')}
     </ul>
   </div>
@@ -127,6 +114,23 @@ class RecipeView {
     </a>
   </div>
 `;
+  }
+
+  #generateIngredientsMarkup(ing_obj) {
+    return `
+        <li class="recipe__ingredient">
+          <svg class="recipe__icon">
+            <use href="${icons}#icon-check"></use>
+          </svg>
+          <div class="recipe__quantity">${
+            ing_obj.quantity ? new Fraction(ing_obj.quantity).toString() : ''
+          }</div>
+          <div class="recipe__description">
+            <span class="recipe__unit">${ing_obj.unit}</span>
+            ${ing_obj.description}
+          </div>
+      </li>
+    `;
   }
 }
 

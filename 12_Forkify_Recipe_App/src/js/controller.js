@@ -1,8 +1,8 @@
 import 'regenerator-runtime/runtime';
 import 'core-js/stable';
 
-import * as model from './model';
 import recipeView from './views/recipeView';
+import * as model from './model';
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
