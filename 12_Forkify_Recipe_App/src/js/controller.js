@@ -23,8 +23,8 @@ const showRecipe = async function () {
   }
 };
 
-showRecipe();
+const init = function () {
+  recipeView.renderRecipeView(showRecipe);
+};
 
-// on initial page load, fetch recipe
-// watch for hashchange in url, signifying change in recipe fetch id
-['load', 'hashchange'].forEach(evt => window.addEventListener(evt, showRecipe));
+init();

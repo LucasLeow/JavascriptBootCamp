@@ -182,7 +182,7 @@
 139D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\internals\descriptors.js133569356560000000 0
 153D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\caniuse-lite\data\features\css-not-sel-list.js133568625660000000 0
 140D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\css-tree\lib\syntax\node\Ratio.js133568625680000000 0
-120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js.map133571075900000000 0
+120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js.map133571092700000000 0
 149D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\modules\esnext.string.match-all.js133569356580000000 0
 125D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\chokidar\README.md133568626920000000 0
 142D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\css-tree\cjs\parser\SyntaxError.cjs133568625660000000 0
@@ -245,7 +245,7 @@
 146D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\modules\es.typed-array.every.js133569356560000000 0
 140D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\stable\instance\reduce.js133569356600000000 0
 150D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\@swc\helpers\_\_initializer_define_property133568625671500000 1
-116D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js133571075900000000 0
+116D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\dist\index.e37f48ea.js133571092700000000 0
 127D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\electron-to-chromium133568625556300000 1
 138D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\reflect\index.js133569356580000000 0
 139D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\es\symbol\unscopables.js133569356620000000 0
@@ -5457,7 +5457,7 @@
 145D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\object\lookup-setter.js133569356600000000 0
 149D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\@parcel\core\test\fixtures\parcel\other.js133568625660000000 0
 150D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\object\prevent-extensions.js133569356600000000 0
-120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\views\recipeView.js133570596080000000 0
+120D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\views\recipeView.js133571091880000000 0
 137D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\object\proto.js133569356600000000 0
 136D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\core-js\actual\object\seal.js133569356600000000 0
 143D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\utility-types\dist\mapped-types.d.ts133568625620000000 0
@@ -9611,7 +9611,7 @@
 152D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\@parcel\bundler-default\src\DefaultBundler.js133568625620000000 0
 152D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\node_modules\@parcel\bundler-default\lib\DefaultBundler.js133568625620000000 0
 100D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js133568094060000000 1
-114D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\controller.js133571067180000000 0
+114D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\controller.js133571092700000000 0
 109D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\model.js133571065000000000 0
 106D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\views133570570255700000 1
 110D:\SelfLearning\language_JavaScript\JavaScriptZeroToExpert2024\git_repo\12_Forkify_Recipe_App\src\js\config.js133571075900000000 0

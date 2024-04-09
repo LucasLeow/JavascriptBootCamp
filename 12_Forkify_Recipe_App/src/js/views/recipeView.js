@@ -116,6 +116,14 @@ class RecipeView {
 `;
   }
 
+  renderRecipeView(handlerFn) {
+    // on initial page load, fetch recipe
+    // watch for hashchange in url, signifying change in recipe fetch id
+    ['load', 'hashchange'].forEach(evt =>
+      window.addEventListener(evt, handlerFn)
+    );
+  }
+
   #generateIngredientsMarkup(ing_obj) {
     return `
         <li class="recipe__ingredient">
