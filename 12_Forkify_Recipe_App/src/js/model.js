@@ -21,6 +21,6 @@ export const loadRecipe = async function (recipe_hash) {
       title: recipe.title,
     };
   } catch (err) {
-    console.error('model', err);
+    throw err; // throw err to be handled in controller
   }
 };
