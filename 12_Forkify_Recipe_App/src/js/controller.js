@@ -2,11 +2,9 @@ import 'regenerator-runtime/runtime';
 import 'core-js/stable';
 
 import recipeView from './views/recipeView';
+import searchView from './views/searchView';
 import * as model from './model';
 
-// https://forkify-api.herokuapp.com/v2
-
-///////////////////////////////////////
 const showRecipe = async function () {
   try {
     const recipe_hash = window.location.hash.slice(1); // get hash id from url
@@ -23,8 +21,19 @@ const showRecipe = async function () {
   }
 };
 
+const showSearchResults = async function () {
+  try {
+    const query = searchView.getQuery();
+    if (!query) return;
+    await model.loadSearchResult(query);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const init = function () {
   recipeView.renderRecipeView(showRecipe);
+  searchView.handleSearch(showSearchResults);
 };
 
 init();
