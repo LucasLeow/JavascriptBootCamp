@@ -13,7 +13,6 @@ export const state = {
 export const loadRecipe = async function (recipe_hash) {
   try {
     const data = await getJSON(`${API_URL}/${recipe_hash}`);
-    console.log(data);
     let { recipe } = data.data;
     state.recipe = {
       id: recipe.id,

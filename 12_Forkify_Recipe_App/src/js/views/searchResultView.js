@@ -4,9 +4,10 @@ import icons from 'url:../../img/icons.svg'; // for parcel 2, static content nee
 
 class SearchResultView extends View {
   _parentElement = document.querySelector('.results');
+  _errorMessage = 'No recipe found for your query! Please try again.';
+  _message = 'Start by searching for a recipe or an ingredient. Have fun!';
 
   _generateMarkup() {
-    console.log(this._data);
     return this._data.map(this._generateMarkupPreview).join('');
   }
 
