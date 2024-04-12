@@ -7,6 +7,10 @@ class SearchView {
     return this.#parentEl.querySelector('.search__field').value;
   }
 
+  clearInput() {
+    this.#parentEl.querySelector('.search__field').value = '';
+  }
+
   handleSearch(handlerFn) {
     this.#parentEl.addEventListener('submit', function (ev) {
       ev.preventDefault(); // prevent reload on submit

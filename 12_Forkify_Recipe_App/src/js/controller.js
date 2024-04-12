@@ -24,6 +24,7 @@ const showRecipe = async function () {
 const showSearchResults = async function () {
   try {
     const query = searchView.getQuery();
+    searchView.clearInput();
     if (!query) return;
     await model.loadSearchResult(query);
   } catch (err) {
