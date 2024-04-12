@@ -2,8 +2,14 @@ import 'regenerator-runtime/runtime';
 import 'core-js/stable';
 
 import recipeView from './views/recipeView';
-import searchView from './views/searchView';
+import searchResultView from './views/searchResultView';
+import getSearchView from './views/getSearchView';
 import * as model from './model';
+
+// parcel functionality
+if (module.hot) {
+  module.hot.accept();
+}
 
 const showRecipe = async function () {
   try {
@@ -23,10 +29,16 @@ const showRecipe = async function () {
 
 const showSearchResults = async function () {
   try {
-    const query = searchView.getQuery();
-    searchView.clearInput();
+    const query = getSearchView.getQuery();
+    getSearchView.clearInput();
     if (!query) return;
-    await model.loadSearchResult(query);
+    searchResultView.renderSpinner();
+
+    // 1) loadSearchResult does not return anything. Instead, updates model.state.search obj to contain search results
+    await model.loadSearchResult(query); // load _data to view
+
+    // 2) Render Search Result
+    searchResultView.render(model.state.search.results);
   } catch (err) {
     console.log(err);
   }
@@ -34,7 +46,7 @@ const showSearchResults = async function () {
 
 const init = function () {
   recipeView.renderRecipeView(showRecipe);
-  searchView.handleSearch(showSearchResults);
+  getSearchView.handleSearch(showSearchResults);
 };
 
 init();

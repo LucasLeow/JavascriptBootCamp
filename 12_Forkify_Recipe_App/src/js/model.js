@@ -9,10 +9,11 @@ export const state = {
   },
 };
 
+// load recipe from given hash in URL
 export const loadRecipe = async function (recipe_hash) {
   try {
     const data = await getJSON(`${API_URL}/${recipe_hash}`);
-
+    console.log(data);
     let { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
@@ -29,6 +30,7 @@ export const loadRecipe = async function (recipe_hash) {
   }
 };
 
+// load search Result on search section
 export const loadSearchResult = async function (queryString) {
   try {
     state.search.query = queryString;
@@ -41,7 +43,6 @@ export const loadSearchResult = async function (queryString) {
         title: recipe.title,
       };
     });
-    console.log(state.search.results);
   } catch (err) {
     throw err;
   }
