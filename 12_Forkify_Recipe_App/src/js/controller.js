@@ -4,6 +4,7 @@ import 'core-js/stable';
 import recipeView from './views/recipeView';
 import searchResultView from './views/searchResultView';
 import getSearchView from './views/getSearchView';
+import paginationView from './views/paginationView';
 import * as model from './model';
 
 // parcel functionality
@@ -39,6 +40,9 @@ const showSearchResults = async function () {
 
     // 2) Render Search Result
     searchResultView.render(model.getSearchResultsPage());
+
+    // 3) Render Pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err);
   }
