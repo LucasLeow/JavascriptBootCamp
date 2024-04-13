@@ -26,6 +26,7 @@ export const loadRecipe = async function (recipe_hash) {
       sourceUrl: recipe.source_url,
       title: recipe.title,
     };
+    console.log(state.recipe);
   } catch (err) {
     throw err; // throw err to be handled in controller
   }
@@ -54,4 +55,13 @@ export const getSearchResultsPage = function (page = state.search.page) {
   const start = (page - 1) * state.search.resultsPerPage;
   const end = page * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
+};
+
+export const updateServings = function (newServings) {
+  state.recipe.ingredients.forEach(ingredient => {
+    ingredient.quantity =
+      (newServings / state.recipe.servings) * ingredient.quantity;
+  });
+
+  state.recipe.servings = newServings; // update old serving with new servings
 };
