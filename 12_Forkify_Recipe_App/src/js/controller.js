@@ -18,6 +18,9 @@ const showRecipe = async function () {
     if (!recipe_hash) return; // if no recipe hash in url
     recipeView.renderSpinner();
 
+    // 0) Update result view to show selected recipe (if any)
+    searchResultView.update(model.getSearchResultsPage());
+
     // 1) Load recipe (does not return anything. instead, updates the model.state obj)
     await model.loadRecipe(recipe_hash);
 
