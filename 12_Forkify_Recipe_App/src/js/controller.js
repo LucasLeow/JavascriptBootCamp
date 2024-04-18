@@ -5,6 +5,7 @@ import recipeView from './views/recipeView';
 import searchResultView from './views/searchResultView';
 import getSearchView from './views/getSearchView';
 import paginationView from './views/paginationView';
+import bookmarksView from './views/bookmarksView';
 import * as model from './model';
 
 // parcel functionality
@@ -20,6 +21,7 @@ const showRecipe = async function () {
 
     // 0) Update result view to show selected recipe (if any)
     searchResultView.update(model.getSearchResultsPage());
+    bookmarksView.update(model.state.bookmarks);
 
     // 1) Load recipe (does not return anything. instead, updates the model.state obj)
     await model.loadRecipe(recipe_hash);
@@ -68,13 +70,18 @@ const controlUpdateServings = function (newServings) {
 };
 
 const controlAddBookmark = function () {
+  // 1) Add / Remove recipe bookmark
   if (!model.state.recipe.bookmarked) {
     model.addBookmark(model.state.recipe);
   } else {
     model.deleteBookmark(model.state.recipe.id);
   }
-  console.log(model.state.recipe);
+
+  // 2) Update rendering of bookmarked icon
   recipeView.update(model.state.recipe);
+
+  // 3) Render bookmark view
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const init = function () {
