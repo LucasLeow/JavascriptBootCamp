@@ -36,10 +36,11 @@ const showSearchResults = async function () {
     const query = getSearchView.getQuery();
     getSearchView.clearInput();
     if (!query) return;
+    model.state.search.page = 1;
     searchResultView.renderSpinner();
 
     // 1) loadSearchResult does not return anything. Instead, updates model.state.search obj to contain search results
-    await model.loadSearchResult(query); // load _data to view
+    await model.loadSearchResult(query); // load search result into state
 
     // 2) Render Search Result
     searchResultView.render(model.getSearchResultsPage());
@@ -66,9 +67,20 @@ const controlUpdateServings = function (newServings) {
   recipeView.update(model.state.recipe);
 };
 
+const controlAddBookmark = function () {
+  if (!model.state.recipe.bookmarked) {
+    model.addBookmark(model.state.recipe);
+  } else {
+    model.deleteBookmark(model.state.recipe.id);
+  }
+  console.log(model.state.recipe);
+  recipeView.update(model.state.recipe);
+};
+
 const init = function () {
   recipeView.renderRecipeView(showRecipe);
   recipeView.addHandlerUpdateServings(controlUpdateServings);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
 
   getSearchView.handleSearch(showSearchResults);
   paginationView.addHandlerButtonClick(controlPagination);

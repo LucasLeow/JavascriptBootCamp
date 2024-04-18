@@ -16,9 +16,7 @@ export default class View {
 
   // update view for only changed data instead of re-rendering entire page
   update(data) {
-    if (!data || (Array.isArray(data) && data.length === 0)) {
-      return this.renderError();
-    }
+    if (!data) return;
     this._data = data;
 
     // generateMarkup returns HTML string with updated data
@@ -37,7 +35,7 @@ export default class View {
       // update change text
       if (
         !newElement.isEqualNode(curElement) &&
-        newElement.firstChild.nodeValue?.trim() !== ''
+        newElement?.firstChild?.nodeValue?.trim() !== ''
       ) {
         curElement.textContent = newElement.textContent;
       }

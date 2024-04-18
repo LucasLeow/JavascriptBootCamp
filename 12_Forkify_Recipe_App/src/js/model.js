@@ -9,6 +9,7 @@ export const state = {
     page: 1,
     resultsPerPage: ResultsPerPage,
   },
+  bookmarks: [],
 };
 
 // load recipe from given hash in URL
@@ -26,6 +27,10 @@ export const loadRecipe = async function (recipe_hash) {
       sourceUrl: recipe.source_url,
       title: recipe.title,
     };
+
+    if (state.bookmarks.some(bookmark => bookmark.id === recipe_hash)) {
+      state.recipe.bookmarked = true;
+    } else state.recipe.bookmarked = false;
     console.log(state.recipe);
   } catch (err) {
     throw err; // throw err to be handled in controller
@@ -64,4 +69,20 @@ export const updateServings = function (newServings) {
   });
 
   state.recipe.servings = newServings; // update old serving with new servings
+};
+
+export const addBookmark = function (recipe) {
+  // Add bookmark
+  state.bookmarks.push(recipe);
+
+  // Mark recipe as bookmarked
+  if (recipe.id === state.recipe.id) {
+    state.recipe.bookmarked = true; // add new field 'bookmarked'
+  }
+};
+
+export const deleteBookmark = function (recipe_hash) {
+  const index = state.bookmarks.findIndex(el => el.id === recipe_hash);
+  state.bookmarks.splice(index, 1);
+  state.recipe.bookmarked = false;
 };
