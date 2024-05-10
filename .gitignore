@@ -1,4 +1,4 @@
 ./8_AdvancedDOM/img
-12_Forkify_Recipe_App/node_modules
-12_Forkify_Recipe_App/dist
-12_Forkify_Recipe_App/.parcel-cache
+12_ForkifyApp/node_modules
+12_ForkifyApp/.parcel-cache
+12_ForkifyApp/dist

@@ -63,10 +63,16 @@ Updating DOM where only changes occurs
 =====================================================================================
 Steps Taken
 =====================================================================================
-  1) npm init within project directory
-  2) go to package.json -> modify "main" from index.js to index.html
-  3) set up npm scripts
-    - "start": "parcel index.html",
-    - "build": "parcel build index.html"
-  4) npm i parcel@2 (install v2 of parcel into project dir)
-  5) add node_modules into .gitignore
+
+Project Setup:
+    1) npm init within project directory
+    2) go to package.json -> modify "main" from index.js to <desired file name>.js
+    3) set up npm scripts
+      - "start": "parcel index.html",
+      - "build": "parcel build index.html"
+    4) npm i parcel@2 (install v2 of parcel into project dir)
+    5) npm i (within project dir to install all dependencies)
+    6) add node_modules, dist, .parcel-cache into .gitignore
+
+  Feature 1: Load Recipe from API (https://forkify-api.herokuapp.com/v2)
+    1) go to controller.js, create async function to fetch data
