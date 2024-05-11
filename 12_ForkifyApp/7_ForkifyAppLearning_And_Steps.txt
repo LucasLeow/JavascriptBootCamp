@@ -7,7 +7,9 @@
 Project Guidelines
 =====================================================================================
 
-Project Setup:
+  -------------------------------------------------------------------------------------------------------------------
+  Project Setup:
+  -------------------------------------------------------------------------------------------------------------------
     1) npm init within project directory
     2) go to package.json -> modify "main" from index.js to <desired file name>.js
     3) set up npm scripts
@@ -17,7 +19,9 @@ Project Setup:
     5) npm i (within project dir to install all dependencies)
     6) add node_modules, dist, .parcel-cache into .gitignore
 
+  -------------------------------------------------------------------------------------------------------------------
   Implementation 1: Load Recipe from API (https://forkify-api.herokuapp.com/v2)
+  -------------------------------------------------------------------------------------------------------------------
     1) go to controller.js, create async function to fetch data
       - async showRecipe()
     
@@ -43,7 +47,9 @@ Project Setup:
     6) replace original "src/img/icons.svg" with ${myIcons}
       - since myIcons is the variable containing the path to the static resource in the "dist" dir
   
+  -------------------------------------------------------------------------------------------------------------------
   Implementation 3: Add loading spinner
+  -------------------------------------------------------------------------------------------------------------------
     1) copy spinner html to controller.js
     2) implement renderSpinner method (takes in parentElement as argument for reusability) 
       - refer to css -> .spinner class to see how spinner syntax are made
@@ -55,7 +61,9 @@ Project Setup:
   import 'core-js/stable';
   import 'regenerator-runtime/runtime'
 
+  -------------------------------------------------------------------------------------------------------------------
   Implementation 4: Add Event Listeners for:
+  -------------------------------------------------------------------------------------------------------------------
     - When user selects recipe (from search results)
     - When page loads with recipe ID (from URL)
     * listen to hash change from url, then fetch data upon hash change detected
@@ -69,7 +77,9 @@ Project Setup:
   5) add guard clause for if no recipe hash exist in url
     - if (!id) return; // guard clause if no id
   
+  -------------------------------------------------------------------------------------------------------------------
   Implementation 5: Refactoring for MVC Architecture
+  -------------------------------------------------------------------------------------------------------------------
     1) create model.js & "view" dir + recipeView.js inside "view" dir
     2) go to model.js & create state obj (used to store all data)
     3) create "loadRecipe" function within model.js
@@ -98,7 +108,32 @@ Project Setup:
     15) rename showRecipe to controlRecipe in controller.js
     16) move renderSpinner function from controller.js to RecipeView.js as public method
   
+  -------------------------------------------------------------------------------------------------------------------
   Implementation 6: Use fractional module to divide numbers into fractions for better showing of ingredient servings
+  -------------------------------------------------------------------------------------------------------------------
     1) npm i fractional
     2) import {Fraction} from 'fractional' inside recipeView.js
     3) go to template string for recipe__ingredient-list -> new Fraction(ing.quantity).toString()
+  
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 7: Creating helper.js & config.js
+  -------------------------------------------------------------------------------------------------------------------
+    - for ease of configuring / modifying common files / logic used across app
+
+    1) create config.js & helper.js in "src/js" dir
+      - config.js : constants & common variables used in project
+      - helper.js : for common logic / functions used in project
+    2) create export const API_URL in config.js & transfer the API url from model.js to config.js
+    3) import {API_URL} from './config.js' in model.js
+    4) update template string for the API URL to fetch const res = await fetch(`${API_URL}/${id}`);
+    5) create & export getJSON() function in helper.js
+      - used to fetch required data from external APIs using fetch API
+      - transfer some code from model.js loadRecipe function to helper.js getJSON function
+      - implement try catch in getJSON & throw err in catch so that model.js can handle the error thrown as alert
+    6) go to model.js & import {getJSON} from helper.js
+    7) call getJSON in model.js -> const data = await getJSON(`${API_URL}/${id}`);
+    8) implement timeout function in helper.js to timeout api call after some time to prevent app hang
+    9) create a promise race between timeout fn & getJSON fn to return whichever promise resolve first
+      - const res = await Promise.race([fetch(`${url}`), timeout(5)]); // race between fetch & timeout 5 seconds
+    10) create export const TIMEOUT_SECONDS = 10; in config.js
+      - import { TIMEOUT_SECONDS } from "./config"; inside helper.js & implement in timeout(TIMEOUT_SECONDS)
