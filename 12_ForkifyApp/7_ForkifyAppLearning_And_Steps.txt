@@ -115,3 +115,33 @@ Project Setup:
     ['hashchange', 'load'].forEach(evt => window.addEventListener(evt, showRecipe));
   5) add guard clause for if no recipe hash exist in url
     - if (!id) return; // guard clause if no id
+  
+  Implementation 5: Refactoring for MVC Architecture
+    1) create model.js & "view" dir + recipeView.js inside "view" dir
+    2) go to model.js & create state obj (used to store all data)
+    3) create "loadRecipe" function within model.js
+      - transfer some code from controller.js for loading recipe into loadRecipe function
+        - controller will get hash then pass it as argument to model for Recipe loading
+        - update data storage from recipe to state.recipe
+    4) import * as model from './model'; in controller.js 
+    5) call loadRecipe function within showRecipe function in controller.js to update state
+      - await model.loadRecipe(id);
+      - update markup from recipe.image -> model.state.recipe.image
+    6) set up RecipeView class in recipeView.js
+    7) export instance of RecipeView (instead of RecipeView class itself to prevent instantiation of more than 1 view obj)
+      - export default new RecipeView(); within RecipeView.js
+    8) import recipeView from './views/recipeView.js'; in controller.js
+      * in order to pass data to View, create a public method within View class that accepts in required data in argument
+        - "render()" method is commonly used, esp in React, to pass in data to View class
+    9) create render(data) method inside RecipeView class
+      - this.#data = data; // render method acts like a setter method to pass data from controller to view
+    10) create private method #generateMarkup() {} where it will return the required markup string
+      - transfer markup string from controller.js to generateMarkup function
+      - replace model.state.recipe -> this.#data. 
+    11) call recipeView.render(model.state.recipe); inside controller.js
+    12) create private method #clear() within RecipeView.js to clear existing html content before injecting markup
+    13) call this.#generateMarkup method within render() method + this.#clear + inject HTML 
+    14) import icons from 'url:../../img/icons.svg'; inside RecipeView.js, need to check path is correct
+    15) rename showRecipe to controlRecipe in controller.js
+    16) move renderSpinner function from controller.js to RecipeView.js as public method
+    
