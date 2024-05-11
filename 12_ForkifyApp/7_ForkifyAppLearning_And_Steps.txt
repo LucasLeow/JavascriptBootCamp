@@ -144,4 +144,8 @@ Project Setup:
     14) import icons from 'url:../../img/icons.svg'; inside RecipeView.js, need to check path is correct
     15) rename showRecipe to controlRecipe in controller.js
     16) move renderSpinner function from controller.js to RecipeView.js as public method
-    
+  
+  Implementation 6: Use fractional module to divide numbers into fractions for better showing of ingredient servings
+    1) npm i fractional
+    2) import {Fraction} from 'fractional' inside recipeView.js
+    3) go to template string for recipe__ingredient-list -> new Fraction(ing.quantity).toString()
