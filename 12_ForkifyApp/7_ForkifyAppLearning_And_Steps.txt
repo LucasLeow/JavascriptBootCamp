@@ -101,3 +101,7 @@ Project Setup:
       - since myIcons is the variable containing the path to the static resource in the "dist" dir
   
   Implementation 3: Add loading spinner
+    1) copy spinner html to controller.js
+    2) implement renderSpinner method (takes in parentElement as argument for reusability) 
+      - refer to css -> .spinner class to see how spinner syntax are made
+    3) call renderSpinner method inside showRecipe method
