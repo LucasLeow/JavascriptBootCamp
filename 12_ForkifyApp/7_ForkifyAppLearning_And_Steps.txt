@@ -74,5 +74,30 @@ Project Setup:
     5) npm i (within project dir to install all dependencies)
     6) add node_modules, dist, .parcel-cache into .gitignore
 
-  Feature 1: Load Recipe from API (https://forkify-api.herokuapp.com/v2)
+  Implementation 1: Load Recipe from API (https://forkify-api.herokuapp.com/v2)
     1) go to controller.js, create async function to fetch data
+      - async showRecipe()
+    
+  Implementation 2: Render loaded recipe to view
+    1) Retrieve html from index.html (have to create own if new project)
+      - class="recipe__fig"
+    2) include it together in the showRecipe() method created above
+      - (dont reference this, will break into MVC architecture later on)
+    3) replace html template string with the appropriate variable storing info from the API
+      - create for loop to loop through ingredient data to render onto html
+        - using .map() since .map returns array then use .join to combine all into string
+    4) insert html to DOM using parent element (event propagation)
+      - get rid of old markup then insert new markup
+      - recipeContainer.innerHTML = ''; // remove existing content
+      - recipeContainer.insertAdjacentHTML('afterbegin', markup);
+    5) change icon src in .js file
+      - when using parcel, static files are moved to "dist" dir with new unique name
+        - import myIcons from 'url:../img/icons.svg';
+          - myIcons will be the path to the static resource in "dist" dir
+        - import <desiredName> from 'url:<pathToStaticResourceInDevDir>'
+          - 'url:' syntax required from parcel 2 onwards for any static resources
+          - <desiredName> can be any variable name of choice
+    6) replace original "src/img/icons.svg" with ${myIcons}
+      - since myIcons is the variable containing the path to the static resource in the "dist" dir
+  
+  Implementation 3: Add loading spinner
