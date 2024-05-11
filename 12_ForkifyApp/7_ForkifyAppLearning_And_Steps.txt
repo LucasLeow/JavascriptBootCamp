@@ -3,14 +3,6 @@
     - browser dont understand sass, need to convert to css file
     - need to convert sass file to css file (done by module bundler like Parcel) else css wont apply
 
-- npm i core-js regenerator-runtime
-    - to polyfill ES6 code to be backcompatible with earlier versions of JS
-    - just import to relevant js files
-
-    import 'core-js/stable'; 
-    import 'regenerator-runtime/runtime';
-
-
 - config.js & helper.js
     - separate modules, independent of app logic, for general purpose
     
@@ -58,8 +50,6 @@ Updating DOM where only changes occurs
     });
   }
 
-
-
 =====================================================================================
 Steps Taken
 =====================================================================================
@@ -105,3 +95,23 @@ Project Setup:
     2) implement renderSpinner method (takes in parentElement as argument for reusability) 
       - refer to css -> .spinner class to see how spinner syntax are made
     3) call renderSpinner method inside showRecipe method
+  
+  Implement polyfill for project
+    - old browsers can support app
+    - npm i core-js regenerator-runtime
+  import 'core-js/stable';
+  import 'regenerator-runtime/runtime'
+
+  Implementation 4: Add Event Listeners for:
+    - When user selects recipe (from search results)
+    - When page loads with recipe ID (from URL)
+    * listen to hash change from url, then fetch data upon hash change detected
+
+  1) window.addEventListener('hashchange', showRecipe); in controller.js
+  2) go to showRecipe method & add logic to retrieve hash from url
+    - const id = window.location.hash.slice(1); // add inside showRecipe function
+  3) window.addEventListener('load', showRecipe); // for new page load
+  4) refactor code:
+    ['hashchange', 'load'].forEach(evt => window.addEventListener(evt, showRecipe));
+  5) add guard clause for if no recipe hash exist in url
+    - if (!id) return; // guard clause if no id
