@@ -137,3 +137,24 @@ Project Guidelines
       - const res = await Promise.race([fetch(`${url}`), timeout(5)]); // race between fetch & timeout 5 seconds
     10) create export const TIMEOUT_SECONDS = 10; in config.js
       - import { TIMEOUT_SECONDS } from "./config"; inside helper.js & implement in timeout(TIMEOUT_SECONDS)
+
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 8: Event handling in MVC architecture (pub sub pattern)
+  -------------------------------------------------------------------------------------------------------------------
+    - want event handlers to be in "view" dir, not in controller (dont want presentation logic in controller)
+    - problem: function to execute upon event is within controller (dont want app logic in view)
+      - need to pass function from controller to view
+      - cannot call controller function directly from view (because view does not know anything about controller)
+      - controller know everything about model & view but not the opposite
+    - soln: pub-sub pattern
+      - subscribe (controller fn) to publisher (event handler) by passing in subscriber fn
+        - event handler publishes the event
+        - subscriber (functions to be executed) can subscribe to said event, then based on different subscriber, different fns will be executed
+    
+    * Have a public method (addHandlerRender(<handlerFn>)) in the view class so that function can be passed to the view
+      - controller have init method that will call the addHandlerRender() to pass in the handler function right at program initialization 
+    
+  1) create public method addHandlerRender() in RecipeView.js
+  2) Move existing event handler for recipe in controller.js to addHandlerRender(handlerFn) in RecipeView.js
+  3) go to controller.js & create const init = function() {recipeView.addHandlerRender(controlRecipes)}
+  4) call the init() function in controller.js -> init();
