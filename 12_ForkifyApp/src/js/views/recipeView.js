@@ -4,12 +4,18 @@ import { Fraction } from 'fractional';
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+  #errorMessage = 'Could not find recipe. Please try another one!';
+  #message = '';
 
   render(data) {
     this.#data = data;
     const markup = this.#generateMarkup();
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  #clear() {
+    this.#parentElement.innerHTML = '';
   }
 
   renderSpinner = function () {
@@ -20,12 +26,38 @@ class RecipeView {
         </svg>
       </div>
     `;
-    this.#parentElement.innerHTML = ''; // clear existing content
+    this.#clear(); // clear existing content
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   };
 
-  #clear() {
-    this.#parentElement.innerHTML = '';
+  renderError(msg = this.#errorMessage) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${msg}</p>
+    </div>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMessage(msg = this.#message) {
+    const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${msg}</p>
+    </div>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   addHandlerRender(handlerFn) {

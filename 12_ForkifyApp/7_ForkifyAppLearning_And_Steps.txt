@@ -139,7 +139,7 @@ Project Guidelines
       - import { TIMEOUT_SECONDS } from "./config"; inside helper.js & implement in timeout(TIMEOUT_SECONDS)
 
   -------------------------------------------------------------------------------------------------------------------
-  Implementation 8: Event handling in MVC architecture (pub sub pattern)
+  Implementation 8: Event handling in MVC architecture (pub sub pattern) for RecipeView
   -------------------------------------------------------------------------------------------------------------------
     - want event handlers to be in "view" dir, not in controller (dont want presentation logic in controller)
     - problem: function to execute upon event is within controller (dont want app logic in view)
@@ -158,3 +158,30 @@ Project Guidelines
   2) Move existing event handler for recipe in controller.js to addHandlerRender(handlerFn) in RecipeView.js
   3) go to controller.js & create const init = function() {recipeView.addHandlerRender(controlRecipes)}
   4) call the init() function in controller.js -> init();
+
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 9: Exception / Error Handling
+  -------------------------------------------------------------------------------------------------------------------
+    - to implement error handling to be displayed in the view (not just in the stack trace)
+      - error handling should be in the view if displayed in the view
+    - error handling in the controller for controller logic & in model for model logic
+
+    Error handling in view:
+    1) go to index.html & copy div class="error" logic
+    2) go to recipeView.js & create renderError() {}, paste markup syntax into template string
+    3) replace src/img/icons.svg -> ${icons}
+    4) Replace paragraph text with template string for error message
+
+    5) go to controller.js -> controlRecipes fn, in the catch block, recipeView.renderError(err);
+    6) go to model.js loadRecipe fn, in the catch block, log + throw err; (to be caught in the controller.js)
+      - model.js calls getJSON fn in the helper.js (therefore, must ensure getJSON fn also throws err)
+    
+    7) create private #errorMessage in recipeView.js this.#errorMessage = '<desiredMsg>'
+    8) set default msg renderError(msg = this.#errorMessage)
+    9) Go to controller.js & remove "err" argument from recipeView.renderError()
+
+    10) create renderMessage() method in recipeView class
+    11) go to index.html & get class="message", copy syntax to renderMessage method
+      - replace src/img/icons.svg -> ${icons}
+      - create #message private field
+      - set method argument default renderMessage(msg = this.#message)
