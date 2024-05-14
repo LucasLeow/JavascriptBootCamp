@@ -185,3 +185,21 @@ Project Guidelines
       - replace src/img/icons.svg -> ${icons}
       - create #message private field
       - set method argument default renderMessage(msg = this.#message)
+  
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 10: Search Results feature (Model, View, Controller)
+  -------------------------------------------------------------------------------------------------------------------
+    1) go to model.js & create async loadSearchResult function, which calls getJSON to get recipe from search result
+    2) create "search": {'query': '', 'results': []} within "state" variable in model.js (to store the search results)
+    3) use .map() to iterate through search results data & save into state.search.results
+    4) add -> state.search.query = query; at the top of loadSearchResult function
+    5) go to controller.js to create new controller function : const controlSearchResults = async function() {}
+
+    6) Create searchView.js for search bar (separate from search results view) inside "views" dir
+      - create class SearchView + export default new SeachView() // to prevent more instances of class from being instantiated
+      - create #parentElement = document.querySelector(".search");
+      - create public getQuery method to retrieve query from DOM form input & return query info to controller (don't want controller to have view logic)
+    7) import searchView to controller.js & add const query = searchView.getQuery() inside controlSearchResults() + guard clause
+    8) use pub-sub to add event listener to listen for search bar 'submit' to execute controlSearchResults()
+      - 8.1) create addHandlerSearch(handlerFn) method in searchView.js class + addEventListener to entire form for 'submit' event
+      - 8.2) go to controller.js & call searchView.addHandlerSearch(controlSearchResults) in init() function
