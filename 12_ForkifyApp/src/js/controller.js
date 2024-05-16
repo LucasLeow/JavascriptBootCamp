@@ -35,7 +35,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResult(query); // don't need to save to variable becuz this updates the model state directly
 
     // render results view after loading data to model
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPageData(1)); // getSearchResults
   } catch (err) {
     console.log(err); // error received from model
     // searchView.renderError() // error passed to view to show error to user

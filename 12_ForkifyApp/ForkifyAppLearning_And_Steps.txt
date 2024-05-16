@@ -233,3 +233,16 @@ Project Guidelines
     
     13) create _errorMessage & _message attribute in resultsView.js
     14) go to View.js render(data) method & add data guard clause (if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();)
+
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 12: Implementing pagination for results View
+  -------------------------------------------------------------------------------------------------------------------
+    - want to render 10 results on each page (if 10 results exists)
+
+    1) go to model.js & create getSearchResultsPage function
+    2) add 'resultsPerPage' key in model.js "state" variable inside "search" obj
+    3) go to config.js & export const RESULT_PER_PAGE = 10;
+    4) go to model.js & import RESULT_PER_PAGE & update value inside resultsPerPage key in state.search obj
+
+    5) go to controller.js -> controlSearchResults -> resultsView.render(model.getSearchResultsPage(1));
+    
