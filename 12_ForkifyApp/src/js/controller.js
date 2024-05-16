@@ -6,6 +6,7 @@ import * as model from './model';
 
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 
 const controlRecipe = async function () {
   try {
@@ -26,11 +27,16 @@ const controlRecipe = async function () {
 
 const controlSearchResults = async function () {
   try {
+    resultsView.renderSpinner();
+
     const query = searchView.getQuery();
     if (!query) return; // guard clause if no query in search bar
 
     await model.loadSearchResult(query); // don't need to save to variable becuz this updates the model state directly
     console.log(model.state.search.results);
+
+    // render results view after loading data to model
+    resultsView.render(model.state.search.results);
   } catch (err) {
     console.log(err); // error received from model
     // searchView.renderError() // error passed to view to show error to user

@@ -187,7 +187,7 @@ Project Guidelines
       - set method argument default renderMessage(msg = this.#message)
   
   -------------------------------------------------------------------------------------------------------------------
-  Implementation 10: Search Results feature (Model, View, Controller)
+  Implementation 10: Search Results feature 1: Fetch data from user-provided keyword (Model, View, Controller)
   -------------------------------------------------------------------------------------------------------------------
     1) go to model.js & create async loadSearchResult function, which calls getJSON to get recipe from search result
     2) create "search": {'query': '', 'results': []} within "state" variable in model.js (to store the search results)
@@ -202,4 +202,29 @@ Project Guidelines
     7) import searchView to controller.js & add const query = searchView.getQuery() inside controlSearchResults() + guard clause
     8) use pub-sub to add event listener to listen for search bar 'submit' to execute controlSearchResults()
       - 8.1) create addHandlerSearch(handlerFn) method in searchView.js class + addEventListener to entire form for 'submit' event
+        - ev.preventDefault() + call handlerFn() within method
       - 8.2) go to controller.js & call searchView.addHandlerSearch(controlSearchResults) in init() function
+    9) go to searchView.js & create #clearInput() method to clear search after submit
+      - this.#parentElement.querySelector('.search__field').value = '';
+
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 11: Rendering search results to UI (after fetching data based on search results bar) 
+  -------------------------------------------------------------------------------------------------------------------
+    1) create resultsView.js in "views" dir & class ResultsView
+    2) create View.js & View class as parent class for rendering elements on UI -> export default class View {}
+    3) import View from './View.js' in recipeView.js & resultsView.js
+    4) change all .# to ._ since parcel cannot process inheritance
+    5) copy all methods (except generateMarkup() & addHandlerRender()) from resultsView.js to View.js
+      - also copy over ._data attribute to View parent class
+    6) go to recipeView & resultsView & add "extends View" to class
+    7) import icons from 'url:../../img/icons.svg'; to View class
+
+    8) create _parentElement = document.querySelector('.results'); in ResultsView class 
+      - export default new ResultsView(); at bottom of class
+    9) import resultsView in controller.js & add resultsView.renderSpinner() at controlSearchResults()
+    10) go to resultsView.js & implement _generateMarkup() method (so that superclass render() method can be executed)
+      - copy html structure from index.html (class="preview") & paste into _generateMarkup method
+    
+    11) go to controller.js & call resultsView.render(model.state.search.results) inside controlSearchResults()
+      
+        
