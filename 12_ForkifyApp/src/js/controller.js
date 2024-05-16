@@ -36,7 +36,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResult(query); // don't need to save to variable becuz this updates the model state directly
 
     // render results view after loading data to model
-    resultsView.render(model.getSearchResultsPageData(1)); // getSearchResults
+    resultsView.render(model.getSearchResultsPageData(5)); // getSearchResults
 
     // render pagination button after rendering results
     paginationView.render(model.state.search);

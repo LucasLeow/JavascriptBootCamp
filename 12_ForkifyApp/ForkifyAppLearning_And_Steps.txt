@@ -264,4 +264,4 @@ Project Guidelines
       - at page 1, no other pages (no buttons wanted)
 
     13) go to index.html & copy syntax for left & right paginationBtn to paginationView, generateMarkup method  
-      - return html template string according to scenarios & update template literals accordingly
+      - return html template string according to above scenarios & update template literals accordingly
