@@ -239,10 +239,29 @@ Project Guidelines
   -------------------------------------------------------------------------------------------------------------------
     - want to render 10 results on each page (if 10 results exists)
 
-    1) go to model.js & create getSearchResultsPage function
+    1) go to model.js & create export const getSearchResultsPageData = function (page = state.search.page)
     2) add 'resultsPerPage' key in model.js "state" variable inside "search" obj
     3) go to config.js & export const RESULT_PER_PAGE = 10;
     4) go to model.js & import RESULT_PER_PAGE & update value inside resultsPerPage key in state.search obj
+    5) inside "state" variable in model.js, add new key 'page': 1 for state.search obj
+    6) inside getSearchResultsPageData inside model.js, add state.search.page = page; 
+      - creates a new key to store current page
 
-    5) go to controller.js -> controlSearchResults -> resultsView.render(model.getSearchResultsPage(1));
-    
+    7) go to controller.js -> controlSearchResults -> resultsView.render(model.getSearchResultsPage());
+
+    8) create paginationView.js inside "view" dir & PaginationView class (with necessary imports)
+      * paginationView will render the buttons for pagination
+      - set _parentElement = document.querySelector('.pagination)
+
+    9) export default new PaginationView(); @ bottom of paginationView.js
+    10) go to controller.js & import paginationView from 'PaginationView';
+    11) inside controlSearchResults function in controller.js, add paginationView.render(model.state.search) under resultsView.render()
+
+    12) go to paginationView & implement _generateMarkup() method which implement logic for 4 scenarios for pagination
+      - at page 1, other pages exist (only want next page 2 button)
+      - at last page (only want prev page btn)
+      - at some other page(want both next & prev page btn)
+      - at page 1, no other pages (no buttons wanted)
+
+    13) go to index.html & copy syntax for left & right paginationBtn to paginationView, generateMarkup method  
+      - return html template string according to scenarios & update template literals accordingly

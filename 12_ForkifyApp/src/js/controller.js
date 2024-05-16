@@ -7,6 +7,7 @@ import * as model from './model';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 const controlRecipe = async function () {
   try {
@@ -36,6 +37,9 @@ const controlSearchResults = async function () {
 
     // render results view after loading data to model
     resultsView.render(model.getSearchResultsPageData(1)); // getSearchResults
+
+    // render pagination button after rendering results
+    paginationView.render(model.state.search);
   } catch (err) {
     console.log(err); // error received from model
     // searchView.renderError() // error passed to view to show error to user
