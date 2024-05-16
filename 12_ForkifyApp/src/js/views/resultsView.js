@@ -1,23 +1,32 @@
 import View from './View.js';
+import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
   _parentElement = document.querySelector('.results');
 
   _generateMarkup() {
+    if (!this._data) return;
+    return this._data.map(this._generateResultsPreview).join('');
+  }
+
+  _generateResultsPreview(result) {
     return `
     <li class="preview">
-        <a class="preview__link" href="#23456">
+      <a class="preview__link preview__link--active" href=#${result.id}>
         <figure class="preview__fig">
-            <img src="src/img/test-1.jpg" alt="Test" />
+          <img src="${result.image}" alt="${result.title}" />
         </figure>
         <div class="preview__data">
-            <h4 class="preview__name">
-            Pasta with Tomato Cream ...
-            </h4>
-            <p class="preview__publisher">The Pioneer Woman</p>
+          <h4 class="preview__title">${result.title}</h4>
+          <p class="preview__publisher">${result.publisher}</p>
+          <div class="preview__user-generated">
+            <svg>
+              <use href="${icons}#icon-user"></use>
+            </svg>
+          </div>
         </div>
-        </a>
-    </li> 
+      </a>
+    </li>
     `;
   }
 }

@@ -226,5 +226,9 @@ Project Guidelines
       - copy html structure from index.html (class="preview") & paste into _generateMarkup method
     
     11) go to controller.js & call resultsView.render(model.state.search.results) inside controlSearchResults()
+    12) go to resultsView.js & update _generateMarkup() method to loop through this._data results array
+      - create _generateResultsPreview() method & put results view markup template literal into method
+      - update template literal with required data variable
+      - import icons from 'url:../../img/icons.svg'; to resultsView.js
       
         

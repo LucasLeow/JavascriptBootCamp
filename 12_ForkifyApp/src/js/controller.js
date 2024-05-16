@@ -33,7 +33,6 @@ const controlSearchResults = async function () {
     if (!query) return; // guard clause if no query in search bar
 
     await model.loadSearchResult(query); // don't need to save to variable becuz this updates the model state directly
-    console.log(model.state.search.results);
 
     // render results view after loading data to model
     resultsView.render(model.state.search.results);
