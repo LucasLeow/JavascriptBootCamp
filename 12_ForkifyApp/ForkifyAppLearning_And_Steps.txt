@@ -230,5 +230,6 @@ Project Guidelines
       - create _generateResultsPreview() method & put results view markup template literal into method
       - update template literal with required data variable
       - import icons from 'url:../../img/icons.svg'; to resultsView.js
-      
-        
+    
+    13) create _errorMessage & _message attribute in resultsView.js
+    14) go to View.js render(data) method & add data guard clause (if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();)
