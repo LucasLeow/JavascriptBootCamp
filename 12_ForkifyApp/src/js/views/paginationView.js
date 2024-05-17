@@ -6,7 +6,9 @@ class PaginationView extends View {
 
   _nextPage(curPage) {
     return `
-    <button class="btn--inline pagination__btn--next">
+    <button data-goto="${
+      curPage + 1
+    }" class="btn--inline pagination__btn--next">
         <span>Page ${curPage + 1}</span>
         <svg class="search__icon">
         <use href="${icons}#icon-arrow-right"></use>
@@ -17,13 +19,26 @@ class PaginationView extends View {
 
   _prevPage(curPage) {
     return `
-    <button class="btn--inline pagination__btn--prev">
+    <button data-goto="${
+      curPage - 1
+    }" class="btn--inline pagination__btn--prev">
         <svg class="search__icon">
         <use href="${icons}#icon-arrow-left"></use>
         </svg>
      <span>Page ${curPage - 1}</span>
     </button>
 `;
+  }
+
+  addHandlerClick(handlerFn) {
+    this._parentElement.addEventListener('click', function (ev) {
+      const btn = ev.target.closest('.btn--inline');
+      if (!btn) return;
+
+      const goToPage = +btn.dataset.goto; // + sign to convert dtype to Number
+
+      handlerFn(goToPage);
+    });
   }
 
   _generateMarkup() {

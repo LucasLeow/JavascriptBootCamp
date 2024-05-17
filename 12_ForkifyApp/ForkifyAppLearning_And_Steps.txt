@@ -265,3 +265,17 @@ Project Guidelines
 
     13) go to index.html & copy syntax for left & right paginationBtn to paginationView, generateMarkup method  
       - return html template string according to above scenarios & update template literals accordingly
+    
+    14) create addHandlerClick(handlerFn) method in paginationView for handling btn clicks  
+      - event delegation to detect click on 2 different btns (refer to function for implementation)
+      - implement guard clause if (!btn) return;
+    
+    15) go to controller.js to create controller fn that will be passed to paginationView via addHandlerClick
+      - const controlPagination= function(goToPage) {}
+    16) call paginationView.addHandlerClick(controlPagination) in controller to pass fn to view
+    17) create custom html-data attribute to put page number <button data-goto="${curPage + 1}" inside _nextPage & _prevPage in paginationView.js
+    18) go to addHandlerClick() method & retrieve page info -> const goToPage = btn.dataset.goto;
+    19) pass the page number retrieved back to controller -> handlerFn(goToPage); 
+      - (so can call getSearchResultsPageData(newPageNumber), then call resultsView.render(newResultsData) again)
+    20) go to controller.js -> controlPagination -> call resultsView.render(model.getSearchResultsPageData(goToPage)) to retrieve new page data
+      - also call paginationView.render(model.state.search) to update the pagination buttons
