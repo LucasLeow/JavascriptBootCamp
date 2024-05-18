@@ -1,6 +1,7 @@
 import icons from 'url:../../img/icons.svg';
 import { Fraction } from 'fractional';
 import View from './View.js';
+import { MIN_SERVINGS, MAX_SERVINGS } from '../config.js';
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -11,6 +12,18 @@ class RecipeView extends View {
     ['hashchange', 'load'].forEach(evt =>
       window.addEventListener(evt, handlerFn)
     );
+  }
+
+  addHandlerUpdateServings(handlerFn) {
+    this._parentElement.addEventListener('click', function (ev) {
+      const btn = ev.target.closest('.btn--update-servings');
+      if (!btn) return;
+
+      const newServings = +btn.dataset.updateTo;
+      if (newServings < MIN_SERVINGS || newServings > MAX_SERVINGS) return;
+      handlerFn(newServings);
+      console.log(btn);
+    });
   }
 
   _generateMarkup() {
@@ -44,12 +57,16 @@ class RecipeView extends View {
         <span class="recipe__info-text">servings</span>
 
         <div class="recipe__info-buttons">
-          <button class="btn--tiny btn--increase-servings">
+          <button class="btn--tiny btn--update-servings" data-update-to="${
+            this._data.servings - 1
+          }">
             <svg>
               <use href="${icons}#icon-minus-circle"></use>
             </svg>
           </button>
-          <button class="btn--tiny btn--increase-servings">
+          <button class="btn--tiny btn--update-servings" data-update-to="${
+            this._data.servings + 1
+          }">
             <svg>
               <use href="${icons}#icon-plus-circle"></use>
             </svg>

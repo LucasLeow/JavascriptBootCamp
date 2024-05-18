@@ -36,7 +36,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResult(query); // don't need to save to variable becuz this updates the model state directly
 
     // render results view after loading data to model
-    resultsView.render(model.getSearchResultsPageData(5)); // getSearchResults
+    resultsView.render(model.getSearchResultsPageData()); // getSearchResults
 
     // render pagination button after rendering results
     paginationView.render(model.state.search);
@@ -51,8 +51,17 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search); // update pagination buttons
 };
 
+const controlServings = function (newServings) {
+  // Update recipe servings in model.state
+  model.updateServings(newServings);
+
+  // Update recipe view to show latest ingredients
+  recipeView.render(model.state.recipe);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipe);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };

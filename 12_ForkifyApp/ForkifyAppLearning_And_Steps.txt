@@ -279,3 +279,25 @@ Project Guidelines
       - (so can call getSearchResultsPageData(newPageNumber), then call resultsView.render(newResultsData) again)
     20) go to controller.js -> controlPagination -> call resultsView.render(model.getSearchResultsPageData(goToPage)) to retrieve new page data
       - also call paginationView.render(model.state.search) to update the pagination buttons
+    
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 13: Updating recipe ingredients servings (according to pax)
+  -------------------------------------------------------------------------------------------------------------------
+    * No need to create new view because already in recipeView (just need to update)
+
+    1) go to controller.js & create new function const controlServings = function(newServings) {}
+    2) go to model.js & create new function export const updateServings = function(newServings) {}
+    3) go to controller.js & call model.updateServings(newServings) & recipeView.render(model.state.recipe);
+
+    Include Event Listening PubSub for servings button
+    4) go to recipeView, create new fn addHandlerUpdateServings(handlerFn)
+      - add event listener to parent element & listen for click on .btn--update-servings 
+    5) go to controller.js & call recipeView.addHandlerUpdateServings(controlServings); // to pass controller fn to view
+    6) go to recipeView _generateMarkup() & add custom attribute for btn--increase/decrease-servings data-update-to=""
+      - ensure data-update-to is outside of class (its a new attribute)
+    7) go to recipeView addHandlerUpdateServings & retrieve const newServings = +btn.dataset.updateTo; 
+      - (update-to translates to updateTo) (dash in html attribute translates to camelCase in JS)
+
+    8) create MIN_SERVINGS & MAX_SERVINGS in config.js (export const MIN_SERVINGS = 1;)
+    9) go to recipeView.js & import { MIN_SERVINGS, MAX_SERVINGS } from '../config.js';
+    10) inside addHandlerUpdateServings, include config constants for guard clause
