@@ -13,6 +13,42 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  update(newData) {
+    if (!newData || (Array.isArray(newData) && newData.length === 0))
+      return this.renderError();
+
+    this._data = newData;
+    const newMarkup = this._generateMarkup();
+
+    // convert markup string to DOM obj to use DOM compare method
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+
+    // Get all elements from DOMs for comparison, convert from Nodelist to Array to use loop method
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+
+      // Update to change Text node
+      if (
+        !newEl.isEqualNode(curEl) && // only want to change Text nodes, not entire node
+        newEl.firstChild?.nodeValue.trim() !== '' // Text is always firstChild in nodes, nodeValue returns null for most except for Text,
+        // ?. optional chaining since firstChild not always exist
+      ) {
+        curEl.textContent = newEl.textContent; // updates entire element node, but only for Text nodes due to above check
+      }
+
+      // Update to change attributes
+      if (!newEl.isEqualNode(curEl)) {
+        // each elementNode have Nodelist of attributes, convert to Array then setAttribute
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+      }
+    });
+  }
+
   _clear() {
     this._parentElement.innerHTML = '';
   }

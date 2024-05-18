@@ -15,6 +15,10 @@ const controlRecipe = async function () {
     if (!id) return; // guard clause if no id
 
     recipeView.renderSpinner();
+
+    // Update results view to mark active results if recipe on active view
+    resultsView.update(model.getSearchResultsPageData());
+
     // Loading Recipe
     await model.loadRecipe(id); // no need to store results in variable, "state" in model updated
 
@@ -56,7 +60,7 @@ const controlServings = function (newServings) {
   model.updateServings(newServings);
 
   // Update recipe view to show latest ingredients
-  recipeView.render(model.state.recipe);
+  recipeView.update(model.state.recipe);
 };
 
 const init = function () {

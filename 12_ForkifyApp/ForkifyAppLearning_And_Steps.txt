@@ -301,3 +301,23 @@ Project Guidelines
     8) create MIN_SERVINGS & MAX_SERVINGS in config.js (export const MIN_SERVINGS = 1;)
     9) go to recipeView.js & import { MIN_SERVINGS, MAX_SERVINGS } from '../config.js';
     10) inside addHandlerUpdateServings, include config constants for guard clause
+
+  -------------------------------------------------------------------------------------------------------------------
+  Implementation 14: DOM Update Algorithm (update DOM only where change occurred)
+  -------------------------------------------------------------------------------------------------------------------
+    * This algorithm may only be suitable for smaller projects
+
+  - optimize updating of DOM instead of re-rendering entire page
+    1) go to View.js & create update(newData) method
+      - convert newMarkup to DOM obj (easier to compare 2 DOM objs)
+          const newDOM = document.createRange().createContextualFragment(newMarkup); // virtual DOM living in memory
+          const newElements = Array.from(newDOM.querySelectorAll('*'));
+          const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+        
+        * Loop through all nodes in newElements & curElements, using newEl.isEqualNode(curEl) to compare
+          - change Text nodes + update attributes (open code to see exact change)
+    
+    2) go to controller.js -> controlServings -> change recipeView.render() to recipeView.update()
+    3) go to resultsView.js -> _generateMarkupPreview() -> retrieve hash (const id = window.location.hash.slice(1);)
+    4) in the return string, add check for ${result.id === id ? 'preview__link--active' : ''} // keep results tab highlighted if recipe in active view
+    5) go to controller.js -> controlRecipes -> resultsView.update(model.getSearchResultsPageData()); above loadRecipe()

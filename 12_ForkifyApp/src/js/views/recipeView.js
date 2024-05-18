@@ -22,7 +22,6 @@ class RecipeView extends View {
       const newServings = +btn.dataset.updateTo;
       if (newServings < MIN_SERVINGS || newServings > MAX_SERVINGS) return;
       handlerFn(newServings);
-      console.log(btn);
     });
   }
 
